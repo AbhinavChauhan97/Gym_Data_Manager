@@ -2,14 +2,14 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <Preference
-        android:fragment="com.bignerdranch.practice.Preferences.GeneralPreferences"
+        android:fragment="com.abhinav.chauhan.practice.Preferences.GeneralPreferences"
         android:icon="@drawable/ic_assignment_turned_in_black_24dp"
         android:title="@string/general"></Preference>
     <Preference
         android:icon="@drawable/ic_fingerprint_black_24dp"
         android:title="@string/security"></Preference>
     <Preference
-        android:fragment="com.bignerdranch.practice.Fragments.AccountFragment"
+        android:fragment="com.abhinav.chauhan.practice.Fragments.AccountFragment"
         android:icon="@drawable/ic_vpn_key_black_24dp"
         android:title="@string/account"></Preference>
     <Preference

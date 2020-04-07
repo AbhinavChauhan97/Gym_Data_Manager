@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "197035561817",
+    "firebase_url": "https://practice-8b16c.firebaseio.com",
+    "project_id": "practice-8b16c",
+    "storage_bucket": "practice-8b16c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197035561817:android:4328002a7ae78557947248",
+        "android_client_info": {
+          "package_name": "com.bignerdranch.practice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197035561817-0e7rfhjgom97dkf0ojqe8v0q9kbm8e1a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bignerdranch.practice",
+            "certificate_hash": "e4a5461a14d90fb8a4f9a117fff5b98c79f8edcf"
+          }
+        },
+        {
+          "client_id": "197035561817-6bvmtvo5io6ipqbj1v8utet1fg3jp057.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDedDZ0Fl9xPc0Oogij8a4HbenCsdH0Lck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197035561817-6bvmtvo5io6ipqbj1v8utet1fg3jp057.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">GYM DATA MANAGER</string>
+    <string name="enter_member_name">Enter Member\'s Name</string>
+    <string name="enter_members_phone">Enter Member\'s Phone</string>
+    <string name="enter_members_address">Enter Member\'s Address</string>
+    <string name="enter_members_joining_date">Enter Member\'s Joining Date</string>
+    <string name="members_name">Member\'s Name</string>
+    <string name="members_phone">Member\'s Phone</string>
+    <string name="members_address">Member\'s Address</string>
+    <string name="members_joining_date">Member\'s Joining Date</string>
+    <string name="sort_by">SORT BY</string>
+    <string name="by_name">NAME</string>
+    <string name="by_fees">FEES LEFT</string>
+    <string name="asc">ASCENDING</string>
+    <string name="dsc">DESCENDING</string>
+    <string name="by_joining_date">JOINING DATE</string>
+    <string name="selected_sorting">Selected Sorting</string>
+    <string name="settings">SETTINGS</string>
+    <string name="fees_per_month">Fees Per Month</string>
+    <string name="set_fees">SET FEES</string>
+    <string name="set_monthly_fees">click to set the default monthly fees</string>
+    <string name="enter_monthly_fees">Enter Default Monthly Fess</string>
+    <string name="set">SET</string>
+    <string name="general">GENERAL</string>
+    <string name="security">SECURITY</string>
+    <string name="account">ACCOUNT</string>
+    <string name="about">ABOUT DEVELOPER</string>
+    <string name="sign_out">SIGN OUT</string>
+    <string name="sure_sign_out">Are you sure you want to sign out?</string>
+    <string name="click_to_sign_out">Click to Sign Out</string>
+    <string name="whether_delete_records_key">Whether delete records</string>
+    <string name="whether_delete_records_title">DELETE MEMBER WITH HIS RECORDS</string>
+    <string name="whether_delete_records_summery">When a member deleted, remove all of his data too</string>
+    <string name="FOR">For</string>
+    <string name="month">Month</string>
+    <string name="enter_amount">ENTER AMOUNT</string>
+    <string name="submit_fees_dialog_title">SUBMIT FEES</string>
+    <string name="sure_delete">Do you really want to delete %1$s ?</string>
+    <string name="confirm_delete">CONFIRM DELETE</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="member_not_found">Member Not Found !</string>
+    <string name="enter_correct_name">enter correct name</string>
+    <string name="settings_activity">SETTINGS</string>
+    <string name="memebr_info_activity">MEMBER DETAILS</string>
+    <string name="add_member_activity">ADD NEW MEMBER</string>
+    <string name="search">SEARCH NAME</string>
+    <string-array name="view_pager_tabs">
+        <item>ALL MEMBERS</item>
+        <item>FEE RECORDS</item>
+    </string-array>
+</resources>

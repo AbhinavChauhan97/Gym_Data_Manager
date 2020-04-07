@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/member_image_cardview_motion_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/popping_buttons_motion_scene"
+    app:layout_constraintTop_toBottomOf="parent">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/circular_imageview"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        app:civ_border_color_start="@color/colorPrimary"
+        app:civ_circle_color="@color/colorAccent"
+        app:civ_circle_color_direction="left_to_right"
+        app:civ_circle_color_end="@color/colorPrimaryDark"
+        app:civ_circle_color_start="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></com.mikhaellopez.circularimageview.CircularImageView>
+
+    <ImageButton
+        android:id="@+id/popup_for_memberinfo"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:background="@drawable/baseline_more_horiz_24"
+        android:backgroundTint="@color/icons"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1" />
+
+    <ImageButton
+        android:id="@+id/call_member"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:background="@drawable/circular_image_button"
+        android:elevation="5dp"
+        android:src="@drawable/baseline_call_24"
+        android:tint="@color/icons"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/popup_for_memberinfo"
+        app:layout_constraintTop_toBottomOf="@id/popup_for_memberinfo" />
+
+    <ImageButton
+        android:id="@+id/message_member"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:background="@drawable/circular_image_button"
+        android:elevation="5dp"
+        android:src="@drawable/baseline_chat_24"
+        android:tint="@color/icons"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/popup_for_memberinfo"
+        app:layout_constraintTop_toTopOf="@id/popup_for_memberinfo" />
+
+    <ImageButton
+        android:id="@+id/delete_member"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:background="@drawable/circular_image_button"
+        android:elevation="5dp"
+        android:src="@drawable/baseline_delete_24"
+        android:tint="@color/icons"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/popup_for_memberinfo"
+        app:layout_constraintTop_toTopOf="@id/popup_for_memberinfo" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

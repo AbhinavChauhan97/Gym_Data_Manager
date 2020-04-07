@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+    <Transition
+        motion:constraintSetEnd="@+id/after_member_name_swiped"
+        motion:constraintSetStart="@+id/before_member_name_swiped"
+        motion:duration="1000">
+        <OnSwipe
+            motion:dragDirection="dragRight"
+            motion:touchAnchorId="@+id/member_name_motionlayout"
+            motion:touchAnchorSide="right" />
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/before_member_name_swiped">
+        <Constraint android:id="@+id/member_name_textview" />
+        <Constraint android:id="@+id/days" />
+        <Constraint android:id="@+id/arrow" />
+        <Constraint android:id="@+id/delete_swiped" />
+        <Constraint android:id="@+id/message_swiped" />
+        <Constraint android:id="@+id/call_swiped" />
+        <Constraint android:id="@+id/submit_fees_swiped" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/after_member_name_swiped">
+        <Constraint
+            android:id="@+id/member_name_textview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintEnd_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/days"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintEnd_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/arrow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintEnd_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/call_swiped"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            motion:layout_constraintEnd_toEndOf="parent" />
+
+    </ConstraintSet>
+
+</MotionScene>

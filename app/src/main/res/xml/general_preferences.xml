@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:id="@+id/fees_per_month"
+        android:background="@color/primary_light"
+        android:defaultValue="500"
+        android:dialogIcon="@drawable/ic_attach_money_black_24dp"
+        android:dialogMessage="@string/enter_monthly_fees"
+        android:hint="enter Fees Per month"
+        android:icon="@drawable/ic_money"
+        android:key="@string/fees_per_month"
+        android:positiveButtonText="@string/set"
+        android:summary="@string/set_monthly_fees"
+        android:title="@string/set_fees" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/baseline_delete_black_24"
+        android:key="@string/whether_delete_records_key"
+        android:summary="@string/whether_delete_records_summery"
+        android:title="@string/whether_delete_records_title" />
+</PreferenceScreen>

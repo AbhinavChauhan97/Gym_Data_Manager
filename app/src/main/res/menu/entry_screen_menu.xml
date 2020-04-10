@@ -6,57 +6,22 @@
         android:icon="@drawable/ic_sort_black_24dp"
         android:title="@string/sort_by">
         <menu>
-
-            <item
-                android:id="@+id/by_name"
-                android:title="@string/by_name">
-                <menu>
-                    <group
-                        android:id="@+id/name_grp"
-                        android:checkableBehavior="single">
-                        <item
-                            android:id="@+id/name_asc"
-                            android:title="@string/asc" />
-                        <item
-                            android:id="@+id/name_dsc"
-                            android:title="@string/dsc" />
-                    </group>
-                </menu>
-            </item>
-
-            <item
-                android:id="@+id/by_fees"
-                android:title="@string/by_fees">
-                <menu>
-                    <group
-                        android:id="@+id/fees_grp"
-                        android:checkableBehavior="single">
-                        <item
-                            android:id="@+id/fees_asc"
-                            android:title="@string/asc" />
-                        <item
-                            android:id="@+id/fees_dsc"
-                            android:title="@string/dsc" />
-                    </group>
-                </menu>
-            </item>
-
-            <item
-                android:id="@+id/by_joining_date"
-                android:title="@string/by_joining_date">
-                <menu>
-                    <group
-                        android:id="@+id/date_grp"
-                        android:checkableBehavior="single">
-                        <item
-                            android:id="@+id/date_asc"
-                            android:title="@string/asc" />
-                        <item
-                            android:id="@+id/date_dsc"
-                            android:title="@string/dsc" />
-                    </group>
-                </menu>
-            </item>
+            <group
+                android:id="@+id/fees_grp"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/by_name"
+                    android:title="@string/by_name" />
+                <item
+                    android:id="@+id/by_fees"
+                    android:title="@string/by_fees" />
+                <item
+                    android:id="@+id/by_date_new"
+                    android:title="@string/by_date_new" />
+                <item
+                    android:id="@+id/by_date_old"
+                    android:title="@string/by_date_old" />
+            </group>
         </menu>
     </item>
     <item

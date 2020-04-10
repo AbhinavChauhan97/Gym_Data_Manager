@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='Practice'
+rootProject.name='Gym Data Manager'

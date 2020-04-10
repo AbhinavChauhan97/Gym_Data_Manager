@@ -2,18 +2,19 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <Preference
-        android:fragment="com.abhinav.chauhan.practice.Preferences.GeneralPreferences"
+        android:fragment="com.abhinav.chauhan.gymdatamanager.Preferences.GeneralPreferences"
         android:icon="@drawable/ic_assignment_turned_in_black_24dp"
-        android:title="@string/general"></Preference>
+        android:title="@string/general" />
     <Preference
         android:icon="@drawable/ic_fingerprint_black_24dp"
-        android:title="@string/security"></Preference>
+        android:title="@string/security" />
     <Preference
-        android:fragment="com.abhinav.chauhan.practice.Fragments.AccountFragment"
+        android:fragment="com.abhinav.chauhan.gymdatamanager.Fragments.AccountFragment"
         android:icon="@drawable/ic_vpn_key_black_24dp"
-        android:title="@string/account"></Preference>
+        android:title="@string/account" />
     <Preference
         android:icon="@drawable/ic_portrait_black_24dp"
-        android:title="@string/about"></Preference>
+        android:fragment="com.abhinav.chauhan.gymdatamanager.Fragments.AboutFragment"
+        android:title="@string/about" />
 
 </PreferenceScreen>

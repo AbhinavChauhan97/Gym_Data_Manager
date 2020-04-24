@@ -10,4 +10,5 @@ public class PreferenceActivity extends SingleFragmentHost {
     public Fragment createFragment() {
         return new EditPreferences();
     }
+
 }

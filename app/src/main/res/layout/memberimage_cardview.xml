@@ -11,13 +11,14 @@
         android:id="@+id/circular_imageview"
         android:layout_width="300dp"
         android:layout_height="match_parent"
+        android:src="@drawable/ic_person_black_24dp"
         app:civ_border_color_start="@color/colorPrimary"
         app:civ_circle_color="@color/colorAccent"
         app:civ_circle_color_direction="left_to_right"
         app:civ_circle_color_end="@color/colorPrimaryDark"
         app:civ_circle_color_start="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></com.mikhaellopez.circularimageview.CircularImageView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/popup_for_memberinfo"

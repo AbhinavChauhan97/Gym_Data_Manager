@@ -11,8 +11,6 @@ import com.abhinav.chauhan.gymdatamanager.R;
 
 public class EditPreferences extends PreferenceFragmentCompat {
     private static EditPreferences editPreferences;
-    private String MY_PREFS = "com.goldy.myprefs";
-    private String FEES = "com.goldy.fees";
 
     public static EditPreferences getInstance() {
         if (editPreferences == null)
@@ -20,6 +18,11 @@ public class EditPreferences extends PreferenceFragmentCompat {
         return editPreferences;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);

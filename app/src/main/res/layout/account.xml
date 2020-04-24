@@ -34,13 +34,47 @@
         android:padding="20dp"
         app:layout_constraintTop_toBottomOf="@+id/user_img_guideline" />
 
+    <ProgressBar
+        android:id="@+id/delete_acc_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/delete_acc_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deleting account..."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/delete_acc_progress" />
+
+
     <Button
         android:id="@+id/sign_out"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/sign_out"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/icons"
+        app:layout_constraintStart_toEndOf="@id/delete_acc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/delete_acc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/delete_account"
+        android:textColor="@color/icons"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/sign_out"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

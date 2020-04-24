@@ -3,7 +3,6 @@ package com.abhinav.chauhan.gymdatamanager.Activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,20 +16,20 @@ import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserInfo;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MembersNamesRecyclerViewFragment.CallBacks {
+public final class MainActivity extends AppCompatActivity implements MembersNamesRecyclerViewFragment.CallBacks {
 
     private int RC_SIGN_IN = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setElevation(2);
+        // getSupportActionBar().setElevation(2);
         getSupportActionBar().setIcon(R.drawable.ic_fitness_center_black_24dp);
         if (FirebaseAuth.getInstance().getCurrentUser() == null)
             startSignInActivity();
@@ -73,12 +72,13 @@ public class MainActivity extends AppCompatActivity implements MembersNamesRecyc
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
-                List<? extends UserInfo> userInfo = FirebaseAuth.getInstance().getCurrentUser().getProviderData();
                 HashMap<String, Object> info = new HashMap<>();
-                String name = userInfo.get(1).getDisplayName();
-                String phone = userInfo.get(1).getPhoneNumber();
-                String email = userInfo.get(1).getEmail();
-                Uri photoUrl = userInfo.get(1).getPhotoUrl();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                assert user != null;
+                String name = user.getDisplayName();
+                String phone = user.getPhoneNumber();
+                String email = user.getEmail();
+                Uri photoUrl = user.getPhotoUrl();
                 if (name != null)
                     info.put("NAME", name);
                 if (phone != null)
@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements MembersNamesRecyc
                     info.put("E-MAIL", email);
                 if (photoUrl != null)
                     info.put("PhotoUrl", photoUrl.toString());
-                Log.d("db", "saving user info");
                 FireBaseHandler.getInstance(this)
                         .getUserReference().set(info);
                 hostFragment();

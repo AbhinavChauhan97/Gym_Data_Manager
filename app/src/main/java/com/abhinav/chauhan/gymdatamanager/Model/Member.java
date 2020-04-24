@@ -45,7 +45,7 @@ public class Member implements Serializable {
         mMemberAddress = address;
     }
 
-    public boolean hasImage() {
+    public boolean isHasImage() {
         return mHasImage;
     }
 

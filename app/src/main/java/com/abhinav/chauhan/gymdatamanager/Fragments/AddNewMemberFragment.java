@@ -1,14 +1,19 @@
 package com.abhinav.chauhan.gymdatamanager.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -27,11 +32,11 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Objects;
 
-public class AddNewMemberFragment extends Fragment {
+public final class AddNewMemberFragment extends Fragment {
 
     private TextInputEditText mNewMemberName;
     private TextInputEditText mNewMemberPhone;
@@ -39,12 +44,13 @@ public class AddNewMemberFragment extends Fragment {
     private TextInputEditText mNewMemberJoiningDate;
     private ImageView mNewMemberPhoto;
     private int REQ_TAKE_PHOTO = 123;
-    private Uri imageFileUri;
+    static File file;
+    private int DATE_PICKER = 321;
+    private int CONTACT_PICKER = 312;
     private Member mNewMember;
 
     public static AddNewMemberFragment newInstance() {
-        AddNewMemberFragment fragment = new AddNewMemberFragment();
-        return fragment;
+        return new AddNewMemberFragment();
     }
 
     @Nullable
@@ -63,19 +69,20 @@ public class AddNewMemberFragment extends Fragment {
         mNewMemberAddress = view.findViewById(R.id.member_address_textinput_edittext);
         mNewMemberPhoto = view.findViewById(R.id.new_member_circularimageview);
         setAddThisMemberListener(view);
-        setDontAddThisMember(view);
+        setContactPickerButton(view);
         setClickImageImageButton(view);
-        setJoiningDateEditText();
+        setJoiningDateEditText(view);
     }
 
-    private void setJoiningDateEditText() {
-        mNewMemberJoiningDate = getView().findViewById(R.id.member_joiningdate_textinput_edittext);
+    private void setJoiningDateEditText(View view) {
+        mNewMemberJoiningDate = view.findViewById(R.id.member_joiningdate_textinput_edittext);
         mNewMemberJoiningDate.setText(DateFormat.getInstance().format(new Date()));
         mNewMemberJoiningDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog();
                 dialog.setTargetFragment(AddNewMemberFragment.this, 1);
+                assert getFragmentManager() != null;
                 dialog.show(getFragmentManager(), "datePicker");
             }
         });
@@ -88,10 +95,11 @@ public class AddNewMemberFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                File file = new File(getActivity().getExternalFilesDir(null), mNewMember.getMemberId() + ".jpg");
-                imageFileUri = FileProvider.getUriForFile(getActivity(), "com.abhinav.chauhan.gymdatamanager.provider", file);
+                file = new File(Objects.requireNonNull(getActivity()).getExternalFilesDir(null), mNewMember.getMemberId() + ".jpg");
+                Uri imageFileUri = FileProvider.getUriForFile(getActivity(), "com.abhinav.chauhan.gymdatamanager.provider", file);
                 Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 captureImage.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+                captureImage.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 startActivityForResult(captureImage, REQ_TAKE_PHOTO);
             }
         });
@@ -99,35 +107,34 @@ public class AddNewMemberFragment extends Fragment {
 
     private void setAddThisMemberListener(View view) {
 
-        ImageButton mAddThisMember = view.findViewById(R.id.add_this_member);
+        Button mAddThisMember = view.findViewById(R.id.add_member);
         mAddThisMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 {
                     if (isInputValid()) {
-                        if (mNewMember.hasImage()) {
-                            byte[] thumbImageData = createImage(300, 300);
-                            byte[] fullImageData = createImage(800, 800);
+                        if (mNewMember.isHasImage()) {
+                            byte[] thumbImageData = createImage(300, 300, 10);
+                            byte[] fullImageData = createImage(800, 800, 15);
                             if (thumbImageData != null && fullImageData != null) {
-                                upLoadImage(mNewMember.getMemberId() + "t.jpg", thumbImageData);
-                                upLoadImage(mNewMember.getMemberId() + "t.jpg", fullImageData);
-                                addMemberToDataBase();
-                                AddNewMemberFragment.this.getActivity().finish();
+                                FireBaseHandler.getInstance(getActivity()).addMember(mNewMember, thumbImageData, fullImageData);
                             } else
-                                Toast.makeText(getActivity(), "image currupted, try again", Toast.LENGTH_LONG).show();
-                        } else addMemberToDataBase();
-
-                    } else Toast.makeText(getActivity(), "invalid input", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "image currupted,try again", Toast.LENGTH_LONG).show();
+                        } else
+                            FireBaseHandler.getInstance(getActivity()).addMember(mNewMember);
+                        Objects.requireNonNull(AddNewMemberFragment.this.getActivity()).finish();
+                    } else
+                        Toast.makeText(getActivity(), "invalid input", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
     private boolean isInputValid() {
-        String name = mNewMemberName.getText().toString().trim();
-        String phone = mNewMemberPhone.getText().toString().trim();
-        String address = mNewMemberAddress.getText().toString().trim();
-        if (name.length() > 0 && phone.matches("(0/91)?[7-9][0-9]{9}") && address.length() > 0) {
+        String name = Objects.requireNonNull(mNewMemberName.getText()).toString().replaceAll("\\s{2,}", " ");
+        String phone = Objects.requireNonNull(mNewMemberPhone.getText()).toString().replaceAll("\\s+", "");
+        String address = Objects.requireNonNull(mNewMemberAddress.getText()).toString().replaceAll("\\s+", "");
+        if (address.matches("[a-zA-Z0-9]+") && phone.matches("(?:\\+9[1-9])?[7-9][0-9]{9}") && name.matches("[a-zA-Z ]+")) {
             mNewMember.setMemberName(name.toUpperCase());
             mNewMember.setMemberPhone(phone);
             mNewMember.setMemberAddress(address);
@@ -136,62 +143,58 @@ public class AddNewMemberFragment extends Fragment {
         return false;
     }
 
-    private void addMemberToDataBase() {
-        FireBaseHandler.getInstance(getActivity()).addMember(mNewMember);
-    }
-
-    private void setDontAddThisMember(View view) {
-        ImageButton mDontAddThisMember = view.findViewById(R.id.cancel_adding_this_member);
-        mDontAddThisMember.setOnClickListener(new View.OnClickListener() {
+    private void setContactPickerButton(View view) {
+        Button button = view.findViewById(R.id.add_from_contacts);
+        final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddNewMemberFragment.this.getActivity().finish();
+                startActivityForResult(pickContact, CONTACT_PICKER);
             }
         });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // Log.d("db",imageFileUri.toString());
         if (requestCode == REQ_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            Picasso.with(getActivity()).load(imageFileUri).fit().centerInside().into(mNewMemberPhoto);
+            Picasso.with(getActivity()).load(file).fit().centerInside().into(mNewMemberPhoto);
             mNewMember.setHasImage(true);
-          /*  try {
-                Bitmap fullImageBitmap = android.provider.MediaStore.Images.Media
-                        .getBitmap(getActivity().getContentResolver(), imageFileUri);
-                upLoadImage(mNewMember.getMemberId() + "t.jpg", getImageData(300, 300, fullImageBitmap));
-                upLoadImage(mNewMember.getMemberId() + "f.jpg", getImageData(800, 800, fullImageBitmap));
-                mNewMember.setHasImage(true);
-            } catch (IOException e) {
-                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-            }*/
-        } else if (requestCode == 231 && resultCode == Activity.RESULT_OK) {
-            int[] extra = data.getExtras().getIntArray("date");
+        } else if (requestCode == DATE_PICKER && resultCode == Activity.RESULT_OK && data != null) {
+            int[] extra = Objects.requireNonNull(data.getExtras()).getIntArray("date");
+            assert extra != null;
             String date = "" + extra[2] + "/" + extra[1] + "/" + extra[0];
             mNewMemberJoiningDate.setText(date);
+        } else if (requestCode == CONTACT_PICKER && data != null) {
+
+            @SuppressLint("Recycle") Cursor c1 = Objects.requireNonNull(getActivity())
+                    .getContentResolver()
+                    .query(Objects.requireNonNull(data.getData()), new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER,
+                            ContactsContract.CommonDataKinds.Photo.DISPLAY_NAME}, null, null, null);
+            assert c1 != null;
+            c1.moveToFirst();
+            mNewMemberName.setText(c1.getString(1));
+            mNewMemberPhone.setText(c1.getString(0));
         }
     }
 
-    private byte[] createImage(int height, int width) {
+    private byte[] createImage(int height, int width, int quality) {
         byte[] imageData = null;
         try {
-            Bitmap fullImageBitmap = android.provider.MediaStore.Images.Media
-                    .getBitmap(getActivity().getContentResolver(), imageFileUri);
-            imageData = getImageData(height, width, fullImageBitmap);
-        } catch (IOException e) {
+            Bitmap fullImageBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());//android.provider.MediaStore.Images.Media
+            //.getBitmap(getActivity().getContentResolver(), imageFileUri);
+
+            imageData = getImageData(height, width, quality, fullImageBitmap);
+        } catch (Exception e) {
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
         return imageData;
     }
-    private void upLoadImage(String imageName, byte[] imageData) {
-        FireBaseHandler.getInstance(getActivity())
-                .getMemberImagesReference()
-                .child(imageName).putBytes(imageData);
-    }
 
-    private byte[] getImageData(int height, int width, Bitmap bitmap) {
+    private byte[] getImageData(int height, int width, int quality, Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         Bitmap thumbnail = Bitmap.createScaledBitmap(bitmap, height, width, false);
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 30, stream);
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, quality, stream);
         return stream.toByteArray();
     }
 }

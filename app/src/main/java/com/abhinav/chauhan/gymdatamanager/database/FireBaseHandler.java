@@ -2,26 +2,29 @@ package com.abhinav.chauhan.gymdatamanager.database;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.abhinav.chauhan.gymdatamanager.Model.FeeRecord;
 import com.abhinav.chauhan.gymdatamanager.Model.Member;
-import com.abhinav.chauhan.gymdatamanager.R;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class FireBaseHandler {
+import java.util.HashMap;
+
+public final class FireBaseHandler {
 
     private static FireBaseHandler sfirebaseHandler;
     private static FirebaseFirestore sfirestore;
@@ -37,6 +40,7 @@ public class FireBaseHandler {
     }
 
     public static FireBaseHandler getInstance(Context context) {
+
         if (sfirebaseHandler == null) {
             sfirebaseHandler = new FireBaseHandler(context);
         }
@@ -51,6 +55,9 @@ public class FireBaseHandler {
         sfirebaseHandler = null;
     }
 
+    public CollectionReference getFirestoreImagesReference() {
+        return suserReference.collection("images");
+    }
     public DocumentReference getUserReference() {
         return suserReference;
     }
@@ -64,93 +71,113 @@ public class FireBaseHandler {
     }
 
     public StorageReference getMemberImagesReference() {
-        return FirebaseStorage.getInstance().getReference().child("member_images");
+        return FirebaseStorage.getInstance()
+                .getReference().child("member_images")
+                .child(suserReference.getId());
     }
 
-    public void addMember(Member member) {
-        getMemberReference().document(member.getMemberId())
-                .set(member)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(mApplicationContext, R.string.member_added, Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(mApplicationContext, R.string.couldnt_add_member, Toast.LENGTH_LONG).show();
-                    }
-                });
+    public void addMember(Member member, byte[] thumbImageData, byte[] fullImageData) {
+        addMember(member);
+        getMemberImagesReference()
+                .child(member.getMemberId() + "t.jpg").putBytes(thumbImageData);
+        getMemberImagesReference()
+                .child(member.getMemberId() + "f.jpg").putBytes(fullImageData);
+        HashMap<String, Object> imageMap = new HashMap<>();
+        imageMap.put("t", member.getMemberId() + "t.jpg");
+        imageMap.put("f", member.getMemberId() + "f.jpg");
+        getFirestoreImagesReference().add(imageMap);
     }
 
-    public void addMemberFee(Member member, FeeRecord feeRecord) {
+    public Task addMember(Member member) {
+        return getMemberReference().document(member.getMemberId())
+                .set(member);
+    }
+
+    public Task addMemberFee(Member member, FeeRecord feeRecord) {
         WriteBatch batch = FirebaseFirestore.getInstance().batch();
         DocumentReference memberDoc = getMemberReference().document(member.getMemberId());
         DocumentReference memberFeeDoc = getFeeReference().document();
         batch.update(memberDoc, "noOfFeesSubmittedMonths", member.getNoOfFeesSubmittedMonths());
         batch.set(memberFeeDoc, feeRecord);
-        batch.commit()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(mApplicationContext, R.string.fees_submitted, Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(mApplicationContext, R.string.couldnt_submit_fee, Toast.LENGTH_LONG).show();
-                    }
-                });
+        return batch.commit();
     }
 
-    public void deleteMember(Member member) {
-
-        final WriteBatch batch = FirebaseFirestore.getInstance().batch();
-        DocumentReference memberDoc = getMemberReference().document(member.getMemberId());
-        batch.delete(memberDoc);
-        getFeeReference().whereEqualTo("id", member.getMemberId()).get()
+    public void deleteMember(final Member member) {
+        final WriteBatch batch = sfirestore.batch();
+        getFeeReference().whereEqualTo("id", member.getMemberId())
+                .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                            batch.delete(doc.getReference());
+                        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            batch.delete(snapshot.getReference());
                         }
+                        getFirestoreImagesReference().document(member.getMemberId() + "t.jpg").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                                if (e != null) {
+                                    batch.delete(documentSnapshot.getReference());
+                                    batch.delete(getFirestoreImagesReference().document(member.getMemberId() + "f.jpg"));
+                                }
+                            }
+                        });
+
+                        batch.delete(getMemberReference().document(member.getMemberId()));
+                        batch.commit();
                     }
                 });
-
-        batch.commit()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(mApplicationContext, R.string.member_deleted, Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(mApplicationContext, R.string.couldnt_delete_member, Toast.LENGTH_LONG).show();
-            }
-        });
         getMemberImagesReference().child(member.getMemberId() + "t.jpg").delete();
         getMemberImagesReference().child(member.getMemberId() + "f.jpg").delete();
     }
 
-    public void updateMember(final Member member, String column) {
-        getMemberReference().document(member.getMemberId())
-                .update(column, member)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void updateMember(final String memberId, final String updateValue, final String column) {
+        final WriteBatch batch = sfirestore.batch();
+        getFeeReference().whereEqualTo("id", memberId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(mApplicationContext, R.string.data_updated, Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(mApplicationContext, R.string.couldnt_update, Toast.LENGTH_LONG).show();
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            batch.update(snapshot.getReference(), column, updateValue);
+                        }
+                        if (column.equals("memberName")) {
+                            final String name = updateValue.toUpperCase();
+                            batch.update(getMemberReference().document(memberId), column, name);
+                            getFeeReference().whereEqualTo("id", memberId)
+                                    .get()
+                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                            for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                                                batch.update(snapshot.getReference(), "name", name);
+                                            }
+                                            batch.commit();
+                                        }
+                                    });
+                        } else
+                            batch.commit();
                     }
                 });
+
+    }
+
+    public Task<Void> deleteUserData() {
+        return getUserReference().delete();
+    }
+
+    public Task<QuerySnapshot> deleteUserImages() {
+
+        return getFirestoreImagesReference()
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            getMemberImagesReference().child(snapshot.get("t").toString()).delete();
+                            getMemberImagesReference().child(snapshot.get("f").toString()).delete();
+                        }
+                    }
+                });
+
     }
 }

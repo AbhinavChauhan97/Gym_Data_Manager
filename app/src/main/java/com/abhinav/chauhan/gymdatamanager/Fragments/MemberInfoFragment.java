@@ -33,7 +33,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
-public class MemberInfoFragment extends Fragment {
+public final class MemberInfoFragment extends Fragment {
 
     private TextInputLayout mPhone;
     private Member mMember;
@@ -42,7 +42,6 @@ public class MemberInfoFragment extends Fragment {
     private String FEES_DIALOG = "Fees Dialog";
     private String DELETE_MEMBER_DIALOG = "Delete Member";
     private ProgressBar mProgressBar;
-    private int FEE_DIALOG_REQ = 1;
 
     private MemberInfoFragment(Member member) {
         mMember = member;
@@ -174,6 +173,10 @@ public class MemberInfoFragment extends Fragment {
             public void onDataChanged() {
                 super.onDataChanged();
                 mProgressBar.setVisibility(View.INVISIBLE);
+                if (getItemCount() == 0)
+                    getView().findViewById(R.id.empty_message).setVisibility(View.VISIBLE);
+                else
+                    getView().findViewById(R.id.empty_message).setVisibility(View.INVISIBLE);
             }
         };
         mRecyclerView.setAdapter(mAdapter);
@@ -181,14 +184,17 @@ public class MemberInfoFragment extends Fragment {
 
     private void setMemberImageImageView(View view) {
         final ImageView imageView = view.findViewById(R.id.circular_imageview);
-        if (mMember.hasImage()) {
+        if (mMember.isHasImage()) {
             FireBaseHandler.getInstance(getActivity())
                     .getMemberImagesReference()
                     .child(mMember.getMemberId() + "f.jpg").getDownloadUrl()
                     .addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            Picasso.with(getActivity()).load(uri.toString())
+                            Picasso.with(getActivity())
+                                    .load(uri.toString())
+                                    .fit()
+                                    .centerInside()
                                     .placeholder(R.drawable.ic_person_black_24dp)
                                     .into(imageView);
                         }
@@ -213,9 +219,10 @@ public class MemberInfoFragment extends Fragment {
         }
     }
 
-    private class MemberEditor implements View.OnClickListener {
+    private final class MemberEditor implements View.OnClickListener {
         private TextInputLayout mTextInputLayout;
         private String text;
+        private String upDateValue;
 
         MemberEditor(TextInputLayout textInputLayout) {
             mTextInputLayout = textInputLayout;
@@ -226,6 +233,7 @@ public class MemberInfoFragment extends Fragment {
             text = mTextInputLayout.getEditText().getText().toString().trim();
             if (mTextInputLayout.getEditText().isEnabled()) {
                 if (canUpdate()) {
+                    //Log.d("db",mTextInputLayout.getTag().toString());
                     upDateDatabase(mTextInputLayout.getTag().toString());
                     mTextInputLayout.getEditText().setEnabled(false);
                     mTextInputLayout.setEndIconDrawable(R.drawable.ic_mode_edit_black_24dp);
@@ -241,23 +249,32 @@ public class MemberInfoFragment extends Fragment {
         private boolean canUpdate() {
             switch (mTextInputLayout.getId()) {
                 case R.id.member_name_textinputlayout:
-                    if (text.length() > 0)
-                        mMember.setMemberName(text.trim());
+                    text = text.replaceAll("\\s{2,}", "");
+                    if (text.matches("[a-zA-Z ]+")) {
+                        upDateValue = text;
+                        mMember.setMemberName(upDateValue);
+                    }
                     return true;
                 case R.id.member_address_textinputlayout:
-                    if (text.length() > 0)
-                        mMember.setMemberAddress(text.trim());
+                    text = text.replaceAll("\\s{2,}", "");
+                    if (text.matches("[\\w\\d]+")) {
+                        upDateValue = text;
+                        mMember.setMemberAddress(upDateValue);
+                    }
                     return true;
                 case R.id.member_phone_textinputlayout:
-                    if (text.matches("(0/9)?[7-9][0-9]{9}"))
-                        mMember.setMemberPhone(text.trim());
+                    text = text.replaceAll("\\s+", "");
+                    if (text.matches("(?:>\\+9[1-9])?[7-9][0-9]{9}")) {
+                        upDateValue = text;
+                        mMember.setMemberPhone(upDateValue);
+                    }
                     return true;
             }
             return false;
         }
 
         private void upDateDatabase(String column) {
-            FireBaseHandler.getInstance(getActivity()).updateMember(mMember, column);
+            FireBaseHandler.getInstance(getActivity()).updateMember(mMember.getMemberId(), upDateValue, column);
         }
     }
 }

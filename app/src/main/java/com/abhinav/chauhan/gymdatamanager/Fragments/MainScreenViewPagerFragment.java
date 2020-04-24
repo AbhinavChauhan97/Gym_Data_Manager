@@ -77,7 +77,14 @@ public class MainScreenViewPagerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainScreenViewPagerFragment.this.getActivity(), AddNewMemberActivity.class));
+                // FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                // Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
+                //  if (fragment == null) {
+                // Fragment   fragment = AddNewMemberFragment.newInstance();
+                //  fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                //    }
             }
         });
+
     }
 }

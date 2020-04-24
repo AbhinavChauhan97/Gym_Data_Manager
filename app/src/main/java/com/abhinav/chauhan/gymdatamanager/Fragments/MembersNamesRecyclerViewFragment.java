@@ -32,17 +32,19 @@ import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.Query;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import static com.google.firebase.firestore.Query.Direction.ASCENDING;
 import static com.google.firebase.firestore.Query.Direction.DESCENDING;
 
-public class MembersNamesRecyclerViewFragment extends Fragment {
+public final class MembersNamesRecyclerViewFragment extends Fragment {
 
-    private final String MEMBER_NOT_FOUND_DIALOG = "Member Not Found";
     private CallBacks mCallBacks;
     private FirestoreRecyclerAdapter<Member, Holder> mAdapter;
     private RecyclerView mRecyclerView;
@@ -50,7 +52,7 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
     private TextView mEmptyTextView;
     private int mSelectedSorting;
 
-    public static MembersNamesRecyclerViewFragment newInstance() {
+    static MembersNamesRecyclerViewFragment newInstance() {
         return new MembersNamesRecyclerViewFragment();
     }
 
@@ -58,24 +60,24 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mCallBacks = (CallBacks) context;
-        Log.d("db", "onAttach");
+        Log.d("db", "on Attach");
     }
 
     @Override
     public void onStart() {
         super.onStart();
         mAdapter.startListening();
-        Log.d("db", "onstart");
+        Log.d("db", "on start");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d("db", "oncreate");
+        Log.d("db", "on create");
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mSelectedSorting = EditPreferences
                 .getInstance()
-                .getUserPreference(getActivity())
+                .getUserPreference(Objects.requireNonNull(getActivity()))
                 .getInt(getString(R.string.selected_sorting), 0);
     }
 
@@ -83,14 +85,14 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.d("db", "oncreateview");
+        Log.d("db", "on create view");
         return inflater.inflate(R.layout.recycler_view, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("db", "onviewCreated");
+        Log.d("db", "on view Created");
         mProgressBar = view.findViewById(R.id.progressbar);
         mEmptyTextView = view.findViewById(R.id.empty_message);
         mEmptyTextView.setVisibility(View.INVISIBLE);
@@ -100,7 +102,7 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        Log.d("db", "oncreateOptionsMenu");
+        Log.d("db", "on createOptionsMenu");
         inflater.inflate(R.menu.entry_screen_menu, menu);
         menu.getItem(0).getSubMenu()
                 .getItem(mSelectedSorting)
@@ -111,7 +113,7 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        Log.d("db", "onprepareOptionmenu");
+        Log.d("db", "on prepare Option menu");
 
     }
 
@@ -131,7 +133,7 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
                 mSelectedSorting = this.selectedSorting;
                 mRecyclerView.setAdapter(setupFirestoreRecyclerAdapter(null));
                 EditPreferences.getInstance()
-                        .getUserPreference(getActivity())
+                        .getUserPreference(Objects.requireNonNull(getActivity()))
                         .edit()
                         .putInt(getString(R.string.selected_sorting), this.selectedSorting)
                         .apply();
@@ -146,20 +148,15 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
                 SubMenu subMenu = item.getSubMenu();
                 for (int i = 0; i < subMenu.size(); ++i)
                     subMenu.getItem(i).setOnMenuItemClickListener(new SortingSelector(i));
-                /*subMenu.getItem(0).setOnMenuItemClickListener(new SortingSelector(0));
-                subMenu.getItem(1).setOnMenuItemClickListener(new SortingSelector(1));
-                subMenu.getItem(2).setOnMenuItemClickListener(new SortingSelector(2));
-                subMenu.getItem(3).setOnMenuItemClickListener(new SortingSelector(3));*/
                 return true;
         }
         return true;
     }
 
     private FirestoreRecyclerOptions<Member> getFirebaseRecyclerOptions(Query baseQuery) {
-        FirestoreRecyclerOptions<Member> options = new FirestoreRecyclerOptions.Builder<Member>()
+        return new FirestoreRecyclerOptions.Builder<Member>()
                 .setQuery(baseQuery, Member.class)
                 .build();
-        return options;
     }
 
     private FirestoreRecyclerAdapter<Member, Holder> getFireBaseRecyclerAdapter(FirestoreRecyclerOptions<Member> options) {
@@ -172,7 +169,7 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
         if (query == null) {
             query = FireBaseHandler.getInstance(getActivity())
                     .getMemberReference();
-            Log.d("db", String.valueOf(mSelectedSorting).concat("selected sorting"));
+
             switch (mSelectedSorting) {
                 case 1:
                     options = getFirebaseRecyclerOptions(query.orderBy("noOfFeesSubmittedMonths")
@@ -211,15 +208,16 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 mRecyclerView.setAdapter(setupFirestoreRecyclerAdapter(FireBaseHandler.getInstance(getActivity())
                         .getMemberReference()
-                        .whereEqualTo("memberName", query)));
+                        .whereEqualTo("memberName", query.toUpperCase())));
                 return true;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 mRecyclerView.setAdapter(setupFirestoreRecyclerAdapter(FireBaseHandler.getInstance(getActivity())
                         .getMemberReference()
                         .orderBy("memberName")
-                        .startAt(newText)));
+                        .startAt(newText.toUpperCase())));
                 return true;
             }
         });
@@ -243,7 +241,6 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
     }
 
     private class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private String mUri;
         private Member mMember;
         private TextView mName;
         private TextView mDaysLeft;
@@ -259,7 +256,7 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
             itemView.setOnClickListener(this);
         }
 
-        void bind(Member member, long daysLeft) {
+        void bind(final Member member, final long daysLeft) {
             mMember = member;
             if (daysLeft > 0)
                 mArrow.setBackground(getResources().getDrawable(R.drawable.ic_arrow_upward_black_24dp));
@@ -267,13 +264,25 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
                 mArrow.setBackground(getResources().getDrawable(R.drawable.ic_arrow_downward_black_24dp));
             mName.setText(member.getMemberName());
             mDaysLeft.setText(String.valueOf(daysLeft));
-            if (member.hasImage()) {
-                FireBaseHandler.getInstance(getActivity()).getMemberImagesReference().child(member.getMemberId() + "t.jpg")
-                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            if (member.isHasImage()) {
+
+                FireBaseHandler.getInstance(getActivity())
+                        .getMemberImagesReference()
+                        .child(member.getMemberId() + "t.jpg")
+                        .getDownloadUrl()
+                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(final Uri uri) {
+                                Picasso.with(getActivity())
+                                        .load(uri)
+                                        .placeholder(R.drawable.ic_person_black_24dp)
+                                        .fit().centerCrop().into(mThumbnailImage);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onSuccess(Uri uri) {
+                    public void onFailure(@NonNull Exception e) {
                         Picasso.with(getActivity())
-                                .load(uri)
+                                .load(AddNewMemberFragment.file)
                                 .placeholder(R.drawable.ic_person_black_24dp)
                                 .fit().centerCrop().into(mThumbnailImage);
                     }
@@ -290,9 +299,8 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
     private class FirebaseAdapter extends FirestoreRecyclerAdapter<Member, Holder> {
         boolean mIsSubmitAdapter;
 
-        public FirebaseAdapter(@NonNull FirestoreRecyclerOptions<Member> options, boolean isSubmitAdapter) {
+        private FirebaseAdapter(@NonNull FirestoreRecyclerOptions<Member> options, boolean isSubmitAdapter) {
             super(options);
-            if (getItemCount() == 0) mProgressBar.setVisibility(View.INVISIBLE);
             this.mIsSubmitAdapter = isSubmitAdapter;
         }
 
@@ -313,13 +321,13 @@ public class MembersNamesRecyclerViewFragment extends Fragment {
             super.onDataChanged();
             mProgressBar.setVisibility(View.INVISIBLE);
             if (getItemCount() == 0) {
-                if (mIsSubmitAdapter)
-                    new MemberNotFoundDialog().show(getFragmentManager(), MEMBER_NOT_FOUND_DIALOG);
-                else {
-                    getView().findViewById(R.id.empty_message).setVisibility(View.VISIBLE);
+                if (mIsSubmitAdapter) {
+                    assert getFragmentManager() != null;
+                    new MemberNotFoundDialog().show(getFragmentManager(), null);
                 }
+                mEmptyTextView.setVisibility(View.VISIBLE);
             } else
-                getView().findViewById(R.id.empty_message).setVisibility(View.INVISIBLE);
+                mEmptyTextView.setVisibility(View.INVISIBLE);
         }
     }
 }

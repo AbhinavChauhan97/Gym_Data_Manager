@@ -78,11 +78,13 @@ public class AllMembersRecordsFragment extends Fragment {
             public void onDataChanged() {
                 super.onDataChanged();
                 mProgressBar.setVisibility(View.INVISIBLE);
+                if (getItemCount() > 0) {
+                    getView().findViewById(R.id.empty_message).setVisibility(View.INVISIBLE);
+                } else
+                    getView().findViewById(R.id.empty_message).setVisibility(View.VISIBLE);
             }
         };
-
     }
-
 
     private static class Holder extends RecyclerView.ViewHolder {
 

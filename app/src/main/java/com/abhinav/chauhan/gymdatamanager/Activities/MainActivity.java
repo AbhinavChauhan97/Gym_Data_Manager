@@ -1,6 +1,7 @@
 package com.abhinav.chauhan.gymdatamanager.Activities;
 
 import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import com.abhinav.chauhan.gymdatamanager.Fragments.MainScreenViewPagerFragment;
 import com.abhinav.chauhan.gymdatamanager.Fragments.MembersNamesRecyclerViewFragment;
 import com.abhinav.chauhan.gymdatamanager.Model.Member;
+import com.abhinav.chauhan.gymdatamanager.MyApplication;
 import com.abhinav.chauhan.gymdatamanager.Preferences.EditPreferences;
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
@@ -160,5 +162,12 @@ public final class MainActivity extends AppCompatActivity implements MembersName
             else if (resultCode == RESULT_OK) hostFragment();
         } else
             finish();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        MyApplication.getInstance()
+                .setLocale("hi", newBase);
     }
 }

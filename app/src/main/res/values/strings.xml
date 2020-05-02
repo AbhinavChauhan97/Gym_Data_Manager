@@ -13,13 +13,18 @@
     <string name="sort_by">SORT BY</string>
     <string name="by_name">NAME</string>
     <string name="by_fees">FEES LEFT</string>
+    <string name="saved_changes">Saved Changes</string>
     <string name="by_date_old">JOINING DATE (old)</string>
     <string name="by_date_new">JOINING DATE (new)</string>
-    <string name="selected_sorting">Selected Sorting</string>
     <string name="settings">SETTINGS</string>
+    <string name="image_corrupt">Image Corrupted, Please try again </string>
+    <string name="invalid_input">Invalid Input</string>
     <string name="fees_per_month">Fees Per Month</string>
     <string name="set_fees">SET FEES</string>
-    <string name="set_monthly_fees">click to set the default monthly fees</string>
+    <string name="open_with">OPEN WITH</string>
+    <string name="sign_out_failed">Sign out failed , please try again</string>
+    <string name="account_deleted">Account Deleted</string>
+    <string name="set_monthly_fees">tap to set the default monthly fees</string>
     <string name="enter_monthly_fees">Enter Default Monthly Fess</string>
     <string name="set">SET</string>
     <string name="general">GENERAL</string>
@@ -30,10 +35,7 @@
     <string name="delete_account">DELETE ACCOUNT</string>
     <string name="sure_sign_out">Are you sure you want to sign out?</string>
     <string name="sure_delete_account">Are you sure ? \nAll data will be lost forever.</string>
-    <string name="click_to_sign_out">Click to Sign Out</string>
-    <string name="whether_delete_records_key">Whether delete records</string>
-    <string name="whether_delete_records_title">DELETE MEMBER WITH HIS RECORDS</string>
-    <string name="whether_delete_records_summery">When a member deleted, remove all of his data too</string>
+    <string name="click_to_sign_out">Tap to Sign Out</string>
     <string name="FOR">For</string>
     <string name="month">Month</string>
     <string name="enter_amount">ENTER AMOUNT</string>
@@ -42,13 +44,10 @@
     <string name="confirm_delete">CONFIRM DELETE</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
-    <string name="member_not_found">Member Not Found !</string>
-    <string name="enter_correct_name">enter correct name</string>
-    <string name="settings_activity">SETTINGS</string>
-    <string name="memebr_info_activity">MEMBER DETAILS</string>
+    <string name="member_info_activity">MEMBER DETAILS</string>
     <string name="add_member_activity">ADD NEW MEMBER</string>
     <string name="search">SEARCH NAME</string>
-    <string name="empty_msg">nothing to show</string>
+    <string name="empty_msg">Nothing To Show</string>
     <string name="couldnt_add_member">could\'nt add member, please try again</string>
     <string name="couldnt_delete_member">could\'nt delete member, please try again</string>
     <string name="couldnt_submit_fee">could\'nt submit fee, please try again</string>
@@ -56,9 +55,47 @@
     <string name="member_added">Member Added</string>
     <string name="data_updated">Data Updated</string>
     <string name="member_deleted">Member Deleted</string>
+    <string name="add_member">Add Member</string>
+    <string name="from_contacts">From Contacts</string>
+    <string name="fee_records">Fee Records</string>
     <string name="fees_submitted">Fees Submitted</string>
+    <string name="user_security">USE SECURITY</string>
+    <string name="no_fingerprint_sensor">Device does not have a fingerprint sensor</string>
+    <string name="no_fingerprint_enrolled">No fingerprint is enrolled with device</string>
+    <string name="fingerprint_sensor_not_available">Fingerprint sensor is unavailable try again later</string>
+    <string name="select_fingerprint">Select to use fingerprint lock to unlock the app</string>
+    <string name="pattern_lock_disabled">No pattern lock is enabled in device</string>
+    <string name="select_pattern">Select to use pattern lock to unlock</string>
+    <string name="finger_prompt_title">Gym Data Manager is Locked</string>
+    <string name="finger_prompt_subtitle">Fingerprint Authentication required</string>
+    <string name="finger_prompt_exitbutton">EXIT</string>
+    <string name="enter_pattern">Enter Your Pattern</string>
+    <string name="pattern_required">Pattern authentication is required in order to use the app</string>
+    <string name="use_fingerprint">Use Fingerprint Lock</string>
+    <string name="user_pattern">Use Pattern Lock</string>
+    <string name="enable_authentication_for_using_the_app">enable authentication for using the app</string>
+    <string name="select_theme">SELECT THEME</string>
+    <string name="click_to_theme">Tap to set a different application theme</string>
+    <string-array name="modes_name">
+        <item>Light Theme</item>
+        <item>Dark Theme</item>
+    </string-array>
+    <string-array name="mode_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
     <string-array name="view_pager_tabs">
         <item>ALL MEMBERS</item>
         <item>FEE RECORDS</item>
+    </string-array>
+    <string name="choose_lang">CHANGE LANGUAGE</string>
+    <string name="select_lang">Tap to change the language</string>
+    <string-array name="lang">
+        <item>हिन्दी</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="langValues">
+        <item>hi</item>
+        <item>en</item>
     </string-array>
 </resources>

@@ -27,7 +27,6 @@ import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.Query;
@@ -43,9 +42,13 @@ public final class MemberInfoFragment extends Fragment {
     private String DELETE_MEMBER_DIALOG = "Delete Member";
     private ProgressBar mProgressBar;
 
+    public MemberInfoFragment() {
+    }
     private MemberInfoFragment(Member member) {
+        this.setRetainInstance(true);
         mMember = member;
     }
+
 
     public static MemberInfoFragment newInstance(Member member) {
         MemberInfoFragment fragment = new MemberInfoFragment(member);
@@ -83,42 +86,22 @@ public final class MemberInfoFragment extends Fragment {
 
     private void setSubmitFeesFab(View view) {
         FloatingActionButton submitFeesFab = view.findViewById(R.id.submit_fee_fab);
-        submitFeesFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FeeSubmitDialog.newInstance(mMember).show(getFragmentManager(), FEES_DIALOG);
-            }
-        });
+        submitFeesFab.setOnClickListener(v -> FeeSubmitDialog.newInstance(mMember).show(getFragmentManager(), FEES_DIALOG));
     }
 
     private void setCallMemberButton(View view) {
         ImageButton callMember = view.findViewById(R.id.call_member);
-        callMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mPhone.getEditText().getText())));
-            }
-        });
+        callMember.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mPhone.getEditText().getText()))));
     }
 
     private void setMessageMemberButton(View view) {
         ImageButton messageMember = view.findViewById(R.id.message_member);
-        messageMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + mPhone.getEditText().getText())));
-            }
-        });
+        messageMember.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + mPhone.getEditText().getText()))));
     }
 
     private void setDeleteMemberButton(View view) {
         ImageButton deleteMember = view.findViewById(R.id.delete_member);
-        deleteMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DeleteConformationDialog.newInstance(mMember).show(getFragmentManager(), DELETE_MEMBER_DIALOG);
-            }
-        });
+        deleteMember.setOnClickListener(v -> DeleteConformationDialog.newInstance(mMember).show(getFragmentManager(), DELETE_MEMBER_DIALOG));
     }
 
     private void setMemberNameTextInputLayout(View view) {
@@ -188,17 +171,12 @@ public final class MemberInfoFragment extends Fragment {
             FireBaseHandler.getInstance(getActivity())
                     .getMemberImagesReference()
                     .child(mMember.getMemberId() + "f.jpg").getDownloadUrl()
-                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Picasso.with(getActivity())
-                                    .load(uri.toString())
-                                    .fit()
-                                    .centerInside()
-                                    .placeholder(R.drawable.ic_person_black_24dp)
-                                    .into(imageView);
-                        }
-                    });
+                    .addOnSuccessListener(uri -> Picasso.with(getActivity())
+                            .load(uri.toString())
+                            .fit()
+                            .centerInside()
+                            .placeholder(R.drawable.ic_person_black_24dp)
+                            .into(imageView));
         }
     }
 
@@ -237,9 +215,9 @@ public final class MemberInfoFragment extends Fragment {
                     upDateDatabase(mTextInputLayout.getTag().toString());
                     mTextInputLayout.getEditText().setEnabled(false);
                     mTextInputLayout.setEndIconDrawable(R.drawable.ic_mode_edit_black_24dp);
-                    Toast.makeText(getActivity(), "Changes Saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.saved_changes, Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(getActivity(), "Invalid Data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.invalid_input, Toast.LENGTH_SHORT).show();
             } else {
                 mTextInputLayout.getEditText().setEnabled(true);
                 mTextInputLayout.setEndIconDrawable(R.drawable.ic_check_black_24dp);

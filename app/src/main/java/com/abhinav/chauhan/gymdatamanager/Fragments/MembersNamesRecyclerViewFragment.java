@@ -2,9 +2,7 @@ package com.abhinav.chauhan.gymdatamanager.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,20 +23,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.abhinav.chauhan.gymdatamanager.Activities.PreferenceActivity;
-import com.abhinav.chauhan.gymdatamanager.Dialogs.MemberNotFoundDialog;
 import com.abhinav.chauhan.gymdatamanager.Model.Member;
 import com.abhinav.chauhan.gymdatamanager.Preferences.EditPreferences;
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.Query;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
-
-import java.util.Objects;
 
 import static com.google.firebase.firestore.Query.Direction.ASCENDING;
 import static com.google.firebase.firestore.Query.Direction.DESCENDING;
@@ -60,39 +53,39 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mCallBacks = (CallBacks) context;
-        Log.d("db", "on Attach");
+        //Log.d("db", "on Attach");
     }
 
     @Override
     public void onStart() {
         super.onStart();
         mAdapter.startListening();
-        Log.d("db", "on start");
+        //Log.d("db", "on start");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d("db", "on create");
+        //Log.d("db", "on create");
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mSelectedSorting = EditPreferences
                 .getInstance()
-                .getUserPreference(Objects.requireNonNull(getActivity()))
-                .getInt(getString(R.string.selected_sorting), 0);
+                .getUserPreference(requireActivity())
+                .getInt("selectedsort", 0);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.d("db", "on create view");
+        //Log.d("db", "on create view");
         return inflater.inflate(R.layout.recycler_view, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("db", "on view Created");
+        //Log.d("db", "on view Created");
         mProgressBar = view.findViewById(R.id.progressbar);
         mEmptyTextView = view.findViewById(R.id.empty_message);
         mEmptyTextView.setVisibility(View.INVISIBLE);
@@ -102,7 +95,7 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        Log.d("db", "on createOptionsMenu");
+        //Log.d("db", "on createOptionsMenu");
         inflater.inflate(R.menu.entry_screen_menu, menu);
         menu.getItem(0).getSubMenu()
                 .getItem(mSelectedSorting)
@@ -111,15 +104,8 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
     }
 
     @Override
-    public void onPrepareOptionsMenu(@NonNull Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        Log.d("db", "on prepare Option menu");
-
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Log.d("db", "onOptionsItemSelected");
+        //Log.d("db", "onOptionsItemSelected");
         class SortingSelector implements MenuItem.OnMenuItemClickListener {
             private int selectedSorting;
 
@@ -133,9 +119,9 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
                 mSelectedSorting = this.selectedSorting;
                 mRecyclerView.setAdapter(setupFirestoreRecyclerAdapter(null));
                 EditPreferences.getInstance()
-                        .getUserPreference(Objects.requireNonNull(getActivity()))
+                        .getUserPreference(requireActivity())
                         .edit()
-                        .putInt(getString(R.string.selected_sorting), this.selectedSorting)
+                        .putInt("selectedsort", this.selectedSorting)
                         .apply();
                 return true;
             }
@@ -208,7 +194,7 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 mRecyclerView.setAdapter(setupFirestoreRecyclerAdapter(FireBaseHandler.getInstance(getActivity())
                         .getMemberReference()
-                        .whereEqualTo("memberName", query.toUpperCase())));
+                        .whereEqualTo("memberName", query.toUpperCase().trim())));
                 return true;
             }
 
@@ -217,7 +203,7 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
                 mRecyclerView.setAdapter(setupFirestoreRecyclerAdapter(FireBaseHandler.getInstance(getActivity())
                         .getMemberReference()
                         .orderBy("memberName")
-                        .startAt(newText.toUpperCase())));
+                        .startAt(newText.toUpperCase().trim())));
                 return true;
             }
         });
@@ -227,7 +213,7 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
     public void onStop() {
         super.onStop();
         mAdapter.stopListening();
-        Log.d("db", "onstop");
+        //Log.d("db", "onstop");
     }
 
     @Override
@@ -270,23 +256,15 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
                         .getMemberImagesReference()
                         .child(member.getMemberId() + "t.jpg")
                         .getDownloadUrl()
-                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(final Uri uri) {
-                                Picasso.with(getActivity())
-                                        .load(uri)
-                                        .placeholder(R.drawable.ic_person_black_24dp)
-                                        .fit().centerCrop().into(mThumbnailImage);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Picasso.with(getActivity())
+                        .addOnSuccessListener(uri -> Picasso.with(getActivity())
+                                .load(uri)
+                                .placeholder(R.drawable.ic_person_black_24dp)
+                                .fit().centerCrop().into(mThumbnailImage))
+
+                        .addOnFailureListener(e -> Picasso.with(getActivity())
                                 .load(AddNewMemberFragment.file)
                                 .placeholder(R.drawable.ic_person_black_24dp)
-                                .fit().centerCrop().into(mThumbnailImage);
-                    }
-                });
+                                .fit().centerCrop().into(mThumbnailImage));
             }
         }
 
@@ -321,10 +299,6 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
             super.onDataChanged();
             mProgressBar.setVisibility(View.INVISIBLE);
             if (getItemCount() == 0) {
-                if (mIsSubmitAdapter) {
-                    assert getFragmentManager() != null;
-                    new MemberNotFoundDialog().show(getFragmentManager(), null);
-                }
                 mEmptyTextView.setVisibility(View.VISIBLE);
             } else
                 mEmptyTextView.setVisibility(View.INVISIBLE);

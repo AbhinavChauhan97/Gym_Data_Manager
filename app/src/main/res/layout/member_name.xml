@@ -68,7 +68,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/delete_swiped"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -110,6 +110,6 @@
             android:tint="@color/icons"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </androidx.cardview.widget.CardView>

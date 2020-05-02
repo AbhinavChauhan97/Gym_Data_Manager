@@ -77,55 +77,46 @@ public final class AddNewMemberFragment extends Fragment {
     private void setJoiningDateEditText(View view) {
         mNewMemberJoiningDate = view.findViewById(R.id.member_joiningdate_textinput_edittext);
         mNewMemberJoiningDate.setText(DateFormat.getInstance().format(new Date()));
-        mNewMemberJoiningDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog();
-                dialog.setTargetFragment(AddNewMemberFragment.this, 1);
-                assert getFragmentManager() != null;
-                dialog.show(getFragmentManager(), "datePicker");
-            }
+        mNewMemberJoiningDate.setOnClickListener(v -> {
+            DatePickerDialog dialog = new DatePickerDialog();
+            dialog.setTargetFragment(AddNewMemberFragment.this, 1);
+            assert getFragmentManager() != null;
+            dialog.show(getFragmentManager(), "datePicker");
         });
 
     }
 
     private void setClickImageImageButton(View view) {
         ImageButton mClickImage = view.findViewById(R.id.click_image);
-        mClickImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mClickImage.setOnClickListener(v -> {
 
-                file = new File(Objects.requireNonNull(getActivity()).getExternalFilesDir(null), mNewMember.getMemberId() + ".jpg");
-                Uri imageFileUri = FileProvider.getUriForFile(getActivity(), "com.abhinav.chauhan.gymdatamanager.provider", file);
-                Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                captureImage.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
-                captureImage.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                startActivityForResult(captureImage, REQ_TAKE_PHOTO);
-            }
+            file = new File(requireActivity().getExternalFilesDir(null), mNewMember.getMemberId() + ".jpg");
+            Uri imageFileUri = FileProvider.getUriForFile(getActivity(), "com.abhinav.chauhan.gymdatamanager.provider", file);
+            Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+            captureImage.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            startActivityForResult(captureImage, REQ_TAKE_PHOTO);
         });
     }
 
     private void setAddThisMemberListener(View view) {
 
         Button mAddThisMember = view.findViewById(R.id.add_member);
-        mAddThisMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                {
-                    if (isInputValid()) {
-                        if (mNewMember.isHasImage()) {
-                            byte[] thumbImageData = createImage(300, 300, 10);
-                            byte[] fullImageData = createImage(800, 800, 15);
-                            if (thumbImageData != null && fullImageData != null) {
-                                FireBaseHandler.getInstance(getActivity()).addMember(mNewMember, thumbImageData, fullImageData);
-                            } else
-                                Toast.makeText(getActivity(), "image currupted,try again", Toast.LENGTH_LONG).show();
+        mAddThisMember.setOnClickListener(v -> {
+            {
+                if (isInputValid()) {
+                    if (mNewMember.isHasImage()) {
+                        byte[] thumbImageData = createImage(300, 300, 10);
+                        byte[] fullImageData = createImage(800, 800, 15);
+                        if (thumbImageData != null && fullImageData != null) {
+                            FireBaseHandler.getInstance(getActivity()).addMember(mNewMember, thumbImageData, fullImageData);
                         } else
-                            FireBaseHandler.getInstance(getActivity()).addMember(mNewMember);
-                        Objects.requireNonNull(AddNewMemberFragment.this.getActivity()).finish();
+                            Toast.makeText(getActivity(), R.string.image_corrupt, Toast.LENGTH_LONG).show();
                     } else
-                        Toast.makeText(getActivity(), "invalid input", Toast.LENGTH_LONG).show();
-                }
+                        FireBaseHandler.getInstance(getActivity()).addMember(mNewMember);
+                    AddNewMemberFragment.this.requireActivity().finish();
+                } else
+                    Toast.makeText(getActivity(), R.string.invalid_input, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -146,12 +137,7 @@ public final class AddNewMemberFragment extends Fragment {
     private void setContactPickerButton(View view) {
         Button button = view.findViewById(R.id.add_from_contacts);
         final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(pickContact, CONTACT_PICKER);
-            }
-        });
+        button.setOnClickListener(v -> startActivityForResult(pickContact, CONTACT_PICKER));
     }
 
     @Override
@@ -167,7 +153,7 @@ public final class AddNewMemberFragment extends Fragment {
             mNewMemberJoiningDate.setText(date);
         } else if (requestCode == CONTACT_PICKER && data != null) {
 
-            @SuppressLint("Recycle") Cursor c1 = Objects.requireNonNull(getActivity())
+            @SuppressLint("Recycle") Cursor c1 = requireActivity()
                     .getContentResolver()
                     .query(Objects.requireNonNull(data.getData()), new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER,
                             ContactsContract.CommonDataKinds.Photo.DISPLAY_NAME}, null, null, null);
@@ -181,9 +167,7 @@ public final class AddNewMemberFragment extends Fragment {
     private byte[] createImage(int height, int width, int quality) {
         byte[] imageData = null;
         try {
-            Bitmap fullImageBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());//android.provider.MediaStore.Images.Media
-            //.getBitmap(getActivity().getContentResolver(), imageFileUri);
-
+            Bitmap fullImageBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             imageData = getImageData(height, width, quality, fullImageBitmap);
         } catch (Exception e) {
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();

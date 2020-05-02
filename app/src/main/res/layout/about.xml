@@ -6,29 +6,11 @@
     android:layout_marginTop="50dp">
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/developer_img"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="40dp"
-        app:civ_border="true"
-        android:src="@drawable/ic_person_black_24dp"
-        app:civ_border_color="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toTopOf="@id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        style="@style/CircularImageView"
         app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/developer_img"
+        android:layout_marginBottom="40dp"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- <Progressbar
-         android:id="@+id/dev_pic_progress"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:background="@color/icons"
-         android:elevation="5dp"
-         app:layout_constraintTop_toTopOf="@id/developer_img"
-         app:layout_constraintBottom_toBottomOf="@id/developer_img"
-         app:layout_constraintStart_toStartOf="@id/developer_img"
-         app:layout_constraintEnd_toEndOf="@id/developer_img"/>-->
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

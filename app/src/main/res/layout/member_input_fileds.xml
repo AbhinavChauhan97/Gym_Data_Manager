@@ -18,17 +18,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/member_name_textinputlayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary_light"
+            style="@style/member_input_fields"
             android:hint="@string/members_name"
-            android:tag="memberName"
-            android:textColorHint="@color/secondary_text"
-            app:boxBackgroundColor="@color/primary_light"
-            app:endIconDrawable="@drawable/ic_mode_edit_black_24dp"
             app:endIconMode="custom"
-            app:endIconTint="@color/icons"
-            app:hintTextColor="@color/primary_text">
+            android:tag="memberName"
+            app:endIconDrawable="@drawable/ic_mode_edit_black_24dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/member_name_textinput_edittext"
@@ -49,17 +43,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/member_phone_textinputlayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary_light"
+            style="@style/member_input_fields"
             android:hint="@string/members_phone"
-            android:tag="memberPhone"
-            android:textColorHint="@color/secondary_text"
-            app:boxBackgroundColor="@color/primary_light"
-            app:endIconDrawable="@drawable/ic_mode_edit_black_24dp"
             app:endIconMode="custom"
-            app:endIconTint="@color/icons"
-            app:hintTextColor="@color/primary_text">
+            android:tag="memberName"
+            app:endIconDrawable="@drawable/ic_mode_edit_black_24dp">
+
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/member_phone_textinput_edittext"
@@ -79,17 +68,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/member_address_textinputlayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary_light"
+            style="@style/member_input_fields"
             android:hint="@string/members_address"
-            android:tag="memberAddress"
-            android:textColorHint="@color/secondary_text"
-            app:boxBackgroundColor="@color/primary_light"
-            app:endIconDrawable="@drawable/ic_mode_edit_black_24dp"
             app:endIconMode="custom"
-            app:endIconTint="@color/icons"
-            app:hintTextColor="@color/primary_text">
+            android:tag="memberName"
+            app:endIconDrawable="@drawable/ic_mode_edit_black_24dp">
+
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/member_address_textinput_edittext"
@@ -110,17 +94,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/member_joiningdate_textinputlayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary_light"
-            android:hint="@string/members_address"
-            android:tag="memberAddress"
-            android:textColorHint="@color/secondary_text"
-            app:boxBackgroundColor="@color/primary_light"
-            app:endIconDrawable="@drawable/ic_mode_edit_black_24dp"
+            style="@style/member_input_fields"
+            android:hint="@string/members_joining_date"
             app:endIconMode="custom"
-            app:endIconTint="@color/icons"
-            app:hintTextColor="@color/primary_text">
+            android:tag="memberName"
+            app:endIconDrawable="@drawable/ic_mode_edit_black_24dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/member_joiningdate_textinput_edittext"
@@ -137,8 +115,8 @@
         android:layout_marginBottom="10dp"
         android:background="@color/colorAccent"
         android:elevation="5dp"
-        android:text="Fee Records"
-        android:textSize="20dp"
+        android:text="@string/fee_records"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardview_joiningdate" />

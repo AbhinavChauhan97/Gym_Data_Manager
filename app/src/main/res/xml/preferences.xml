@@ -6,7 +6,8 @@
         android:icon="@drawable/ic_assignment_turned_in_black_24dp"
         android:title="@string/general" />
     <Preference
-        android:icon="@drawable/ic_fingerprint_black_24dp"
+        android:fragment="com.abhinav.chauhan.gymdatamanager.Preferences.SecurityPreferences"
+        android:icon="@drawable/ic_security_black_24dp"
         android:title="@string/security" />
     <Preference
         android:fragment="com.abhinav.chauhan.gymdatamanager.Fragments.AccountFragment"

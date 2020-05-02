@@ -2,7 +2,6 @@ package com.abhinav.chauhan.gymdatamanager.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,17 +49,14 @@ public class FeeSubmitDialog extends DialogFragment {
         final EditText amountEditText = view.findViewById(R.id.enter_amount);
         amountEditText.setText(EditPreferences.getInstance().getUserPreference(getContext()).getString(FEES, "500"));
         return new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.submit_fees_dialog_title)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int totalFeeSubmittedMonths = Integer.parseInt(noOfMonths[monthSpinner.getSelectedItemPosition()]) + mMember.getNoOfFeesSubmittedMonths();
-                        mMember.setNoOfFeesSubmittedMonths(totalFeeSubmittedMonths);
-                        FeeRecord feeRecord = new FeeRecord(Integer.parseInt(amountEditText.getText().toString()));
-                        feeRecord.setName(mMember.getMemberName());
-                        feeRecord.setId(mMember.getMemberId());
-                        upDateDatabase(feeRecord);
-                        dismiss();
-                    }
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    int totalFeeSubmittedMonths = Integer.parseInt(noOfMonths[monthSpinner.getSelectedItemPosition()]) + mMember.getNoOfFeesSubmittedMonths();
+                    mMember.setNoOfFeesSubmittedMonths(totalFeeSubmittedMonths);
+                    FeeRecord feeRecord = new FeeRecord(Integer.parseInt(amountEditText.getText().toString()));
+                    feeRecord.setName(mMember.getMemberName());
+                    feeRecord.setId(mMember.getMemberId());
+                    upDateDatabase(feeRecord);
+                    dismiss();
                 })
                 .setNegativeButton(android.R.string.cancel, null).create();
     }

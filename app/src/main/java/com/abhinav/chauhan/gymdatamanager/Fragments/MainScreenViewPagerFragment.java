@@ -19,7 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainScreenViewPagerFragment extends Fragment {
 
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class MainScreenViewPagerFragment extends Fragment {
         pagerTabStrip.setTextColor(getResources().getColor(android.R.color.white));
         pagerTabStrip.setTabIndicatorColor(getResources().getColor(android.R.color.white));
         mViewPager = view.findViewById(R.id.list);
-        mViewPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
+        mViewPager.setAdapter(new FragmentPagerAdapter(requireActivity().getSupportFragmentManager()) {
             @NonNull
             @Override
             public Fragment getItem(int position) {
@@ -73,18 +73,7 @@ public class MainScreenViewPagerFragment extends Fragment {
     private void setAddMemberFab(View view) {
         FloatingActionButton mAddMemberFab;
         mAddMemberFab = view.findViewById(R.id.add_new_member_fab);
-        mAddMemberFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainScreenViewPagerFragment.this.getActivity(), AddNewMemberActivity.class));
-                // FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                // Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
-                //  if (fragment == null) {
-                // Fragment   fragment = AddNewMemberFragment.newInstance();
-                //  fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
-                //    }
-            }
-        });
+        mAddMemberFab.setOnClickListener(v -> startActivity(new Intent(MainScreenViewPagerFragment.this.getActivity(), AddNewMemberActivity.class)));
 
     }
 }

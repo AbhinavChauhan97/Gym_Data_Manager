@@ -17,9 +17,6 @@ import androidx.fragment.app.Fragment;
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
@@ -41,13 +38,13 @@ public class AboutFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("ABOUT DEVELOPER");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.about);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("SETTINGS");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.settings);
     }
 
     @Override
@@ -79,36 +76,27 @@ public class AboutFragment extends Fragment {
         final TextView about = view.findViewById(R.id.about_developer);
         FireBaseHandler.getInstance(getActivity())
                 .getAboutDeveloper()
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                        String s = documentSnapshot.get("about", String.class);
-                        if (s != null) {
-                            s = s.replace("|", "\n");
-                            s = s.replace("$", "\n\n");
-                            about.setText(s);
-                        }
+                .addSnapshotListener((documentSnapshot, e) -> {
+                    String s = documentSnapshot.get("about", String.class);
+                    if (s != null) {
+                        s = s.replace("|", "\n");
+                        s = s.replace("$", "\n\n");
+                        about.setText(s);
                     }
                 });
     }
 
     private void setLinks(View view) {
         TextView email = view.findViewById(R.id.email);
-        email.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "abhinavchouhan97@gmail.com", null));
-                startActivity(intent);
-            }
+        email.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "abhinavchouhan97@gmail.com", null));
+            startActivity(intent);
         });
 
         TextView github = view.findViewById(R.id.github_repo);
-        github.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.github.com/AbhinavChauhan97/Gym_Data_Manager/"));
-                startActivity(Intent.createChooser(intent, "Open with"));
-            }
+        github.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.github.com/AbhinavChauhan97/Gym_Data_Manager/"));
+            startActivity(Intent.createChooser(intent, getString(R.string.open_with)));
         });
     }
 }

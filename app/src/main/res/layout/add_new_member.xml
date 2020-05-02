@@ -2,55 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <!--<com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/add_new_member_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:elevation="5dp"
-        app:layout_constraintBottom_toTopOf="@id/add_new_member_image_cardview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Add new Member">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/cancel_adding_this_member"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_close_black_24dp"
-                android:tint="@color/icons"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/add_this_member"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/ic_check_black_24dp"
-                android:tint="@color/icons"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.appbar.MaterialToolbar>-->
 
     <ImageButton
         android:id="@+id/click_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/circular_image_button"
-        android:elevation="5dp"
-        android:src="@drawable/baseline_photo_camera_black_36"
+        android:elevation="4dp"
+        android:src="@drawable/baseline_photo_camera_24"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.11"
@@ -60,11 +23,13 @@
         app:layout_constraintVertical_bias="0.9"
         app:layout_constraintWidth_percent="0.2" />
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/add_new_member_image_cardview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         app:cardBackgroundColor="@color/primary_light"
         app:cardCornerRadius="4dp"
         app:layout_constraintBottom_toTopOf="@id/guideline"
@@ -74,15 +39,11 @@
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/new_member_circularimageview"
+            style="@style/CircularImageView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_person_black_24dp"
-            app:civ_border_color_start="@color/colorPrimary"
-            app:civ_circle_color="@color/colorAccent"
-            app:civ_circle_color_direction="left_to_right"
-            app:civ_circle_color_end="@color/colorPrimaryDark"
-            app:civ_circle_color_start="@color/colorPrimary" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
     </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.Guideline
@@ -92,108 +53,62 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardview_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+    <ScrollView
+        android:layout_width="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/add_member"
         app:layout_constraintTop_toBottomOf="@id/guideline">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primary_light"
-            android:hint="@string/enter_member_name"
-            android:textColorHint="@color/secondary_text"
-            app:endIconMode="clear_text"
-            app:endIconTint="@color/icons"
-            app:hintTextColor="@color/primary_text">
+            android:orientation="vertical">
 
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/member_input_fields"
+            app:endIconMode="clear_text"
+                android:elevation="2dp"
+                android:hint="@string/enter_member_name">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/member_name_textinput_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardview_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardview_name">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary_light"
-            android:hint="@string/enter_members_phone"
-            android:textColorHint="@color/secondary_text"
+            style="@style/member_input_fields"
             app:endIconMode="clear_text"
-            app:endIconTint="@color/icons"
-            app:hintTextColor="@color/primary_text">
-
+            android:layout_marginTop="5dp"
+            android:elevation="2dp"
+            android:hint="@string/enter_members_phone">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/member_phone_textinput_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardview_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardview_phone">
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary_light"
-            android:hint="@string/enter_members_address"
-            android:textColorHint="@color/secondary_text"
+            style="@style/member_input_fields"
             app:endIconMode="clear_text"
-            app:endIconTint="@color/icons"
-            app:hintTextColor="@color/primary_text">
+            android:layout_marginTop="5dp"
+            android:elevation="2dp"
+            android:hint="@string/enter_members_address">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/member_address_textinput_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-    </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardview_joiningdate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardview_address">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primary_light"
-            android:hint="@string/enter_members_joining_date"
-            android:textColorHint="@color/secondary_text"
-            app:endIconTint="@color/icons"
-            app:hintTextColor="@color/primary_text">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/member_input_fields"
+                android:layout_marginTop="5dp"
+                android:elevation="2dp"
+                android:hint="@string/enter_member_name"
+                app:endIconMode="custom">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/member_joiningdate_textinput_edittext"
@@ -201,29 +116,23 @@
                 android:layout_height="wrap_content"
                 android:focusable="false" />
         </com.google.android.material.textfield.TextInputLayout>
-    </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
 
     <Button
+        style="@style/buttons"
         android:id="@+id/add_from_contacts"
-        android:layout_width="160dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="From Contacts"
-        android:textColor="@color/icons"
+        android:text="@string/from_contacts"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/add_member"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        style="@style/buttons"
         android:id="@+id/add_member"
-        android:layout_width="160dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="Add Member"
-        android:textColor="@color/icons"
+        android:text="@string/add_member"
+        app:layout_constraintStart_toEndOf="@id/add_from_contacts"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

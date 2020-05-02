@@ -12,11 +12,18 @@
         android:positiveButtonText="@string/set"
         android:summary="@string/set_monthly_fees"
         android:title="@string/set_fees" />
-
-    <SwitchPreference
-        android:defaultValue="true"
-        android:icon="@drawable/baseline_delete_black_24"
-        android:key="@string/whether_delete_records_key"
-        android:summary="@string/whether_delete_records_summery"
-        android:title="@string/whether_delete_records_title" />
+    <ListPreference
+        android:entries="@array/modes_name"
+        android:entryValues="@array/mode_values"
+        android:icon="@drawable/ic_brightness_medium_black_24dp"
+        android:key="modes"
+        android:summary="@string/click_to_theme"
+        android:title="@string/select_theme" />
+    <ListPreference
+        android:entries="@array/lang"
+        android:entryValues="@array/langValues"
+        android:icon="@drawable/ic_translate_black_24dp"
+        android:key="lang"
+        android:summary="@string/select_lang"
+        android:title="@string/choose_lang" />
 </PreferenceScreen>

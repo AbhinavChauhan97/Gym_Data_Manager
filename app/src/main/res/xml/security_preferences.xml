@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        android:icon="@drawable/ic_security_black_24dp"
+        android:key="security"
+        android:summary="@string/enable_authentication_for_using_the_app"
+        app:title="@string/user_security" />
+
+    <!--<Preference
+        android:key="s"
+        android:widgetLayout="@layout/security_preference"
+        android:dependency="security"/><CheckBoxPreference
+          android:icon="@drawable/ic_fingerprint_black_24dp"
+          android:key="use_fingerprint"
+          android:dependency="security"
+          android:title="Use FingerPrint"
+          android:summary="check to use fingerprint as authentication"/>
+      <CheckBoxPreference
+          android:icon="@drawable/ic_timeline_black_24dp"
+          android:key="use_pattern"
+          android:dependency="security"
+          android:title="Use Pattern"
+          android:summary="check to use pattern as authentication"/>-->
+
+</PreferenceScreen>

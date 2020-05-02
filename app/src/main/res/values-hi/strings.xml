@@ -1,0 +1,101 @@
+<resources>
+    <string name="email"><u>G-Mail</u></string>
+    <string name="github"><u>Github</u></string>
+    <string name="app_name">GYM DATA MANAGER</string>
+    <string name="enter_member_name">सदस्य का नाम दर्ज करें</string>
+    <string name="enter_members_phone">सदस्य का फोन नंबर दर्ज करें</string>
+    <string name="enter_members_address">सदस्य का पता दर्ज करें</string>
+    <string name="enter_members_joining_date">सदस्य की ज्वाइनिंग तिथि दर्ज करें</string>
+    <string name="members_name">सदस्य का नाम</string>
+    <string name="members_phone">सदस्य का फोन नंबर</string>
+    <string name="members_address">सदस्य का पता</string>
+    <string name="members_joining_date">सदस्य की ज्वाइनिंग तिथि</string>
+    <string name="sort_by">क्रमबद्ध करें</string>
+    <string name="by_name">नाम से</string>
+    <string name="by_fees">बचे शुल्क से</string>
+    <string name="saved_changes">बदलाव दर्ज किया गया</string>
+    <string name="by_date_old">ज्वाइनिंग तिथि (पुराना)</string>
+    <string name="by_date_new">ज्वाइनिंग तिथि (नया)</string>
+    <string name="settings">सेटिंग</string>
+    <string name="image_corrupt">चित्र दूषित कृपया पुनः प्रयास करें</string>
+    <string name="invalid_input">अमान्य दाखिला</string>
+    <string name="fees_per_month">प्रति माह फीस</string>
+    <string name="set_fees">फीस निर्धारित करें</string>
+    <string name="open_with">के साथ खोलें</string>
+    <string name="sign_out_failed">साइन आउट विफल रहा, कृपया पुनः प्रयास करें</string>
+    <string name="account_deleted">खाता हटा दिया गया</string>
+    <string name="set_monthly_fees">डिफ़ॉल्ट मासिक शुल्क निर्धारित करने के लिए टैप करें</string>
+    <string name="enter_monthly_fees">Enter Default Monthly Fess</string>
+    <string name="set">सेट</string>
+    <string name="general">सामान्य</string>
+    <string name="security">सुरक्षा</string>
+    <string name="account">खाता</string>
+    <string name="about">डेवलपर के बारे में</string>
+    <string name="sign_out">साइन आउट</string>
+    <string name="delete_account">खाता हटाएं</string>
+    <string name="sure_sign_out">क्या आप वास्तव में साइन आउट करना चाहते हैं</string>
+    <string name="sure_delete_account">चेतावनी - सभी डेटा हमेशा के लिए खो जाएगा</string>
+    <string name="click_to_sign_out">साइन आउट करने के लिए टैप करें</string>
+    <string name="FOR">For</string>
+    <string name="month">Month</string>
+    <string name="enter_amount">राशी डालें</string>
+    <string name="submit_fees_dialog_title">फीस जमा करें</string>
+    <string name="sure_delete">क्या आप वास्तव में %1$s को हटाना चाहते हैं</string>
+    <string name="confirm_delete">हटाने की पुष्टि करें</string>
+    <string name="yes">हाँ</string>
+    <string name="no">नहीं</string>
+    <string name="member_info_activity">सदस्य विवरण</string>
+    <string name="add_member_activity">नया सदस्य जोड़ें</string>
+    <string name="search">नाम को खोजें</string>
+    <string name="empty_msg">दिखाने के लिए कुछ भी नहीं</string>
+    <string name="couldnt_add_member">सदस्य नहीं जोड़ा जा सका, कृपया पुनः प्रयास करें</string>
+    <string name="couldnt_delete_member">सदस्य को नहीं हटाया जा सका, कृपया पुनः प्रयास करें</string>
+    <string name="couldnt_submit_fee">शुल्क जमा नहीं कर सका, कृपया पुनः प्रयास करें</string>
+    <string name="couldnt_update">डेटा अपडेट नहीं किया जा सका, कृपया पुनः प्रयास करें</string>
+    <string name="member_added">सदस्य जोड़ा गया</string>
+    <string name="data_updated">डेटा अपडेट किया गया</string>
+    <string name="member_deleted">सदस्य को हटा दिया गया</string>
+    <string name="add_member">वसदस्य जोड़ें</string>
+    <string name="from_contacts">संपर्क से</string>
+    <string name="fee_records">शुल्क रिकॉर्ड</string>
+    <string name="fees_submitted">फीस जमा की गई</string>
+    <string name="user_security">सुरक्षा उपयोग करें</string>
+    <string name="no_fingerprint_sensor">डिवाइस में फिंगरप्रिंट सेंसर नहीं है</string>
+    <string name="no_fingerprint_enrolled">कोई फिंगरप्रिंट डिवाइस के साथ नामांकित नहीं है</string>
+    <string name="fingerprint_sensor_not_available">फ़िंगरप्रिंट सेंसर उपलब्ध नहीं है बाद में प्रयास करें</string>
+    <string name="select_fingerprint">ऐप को अनलॉक करने के लिए फिंगरप्रिंट लॉक का उपयोग करने का चयन करें</string>
+    <string name="pattern_lock_disabled">डिवाइस में कोई पैटर्न लॉक सक्षम नहीं है</string>
+    <string name="select_pattern">अनलॉक करने के लिए पैटर्न लॉक का उपयोग करने का चयन करें</string>
+    <string name="finger_prompt_title">जिम डाटा मैनेजर लॉक है</string>
+    <string name="finger_prompt_subtitle">फिंगरप्रिंट प्रमाणीकरण की आवश्यकता है</string>
+    <string name="finger_prompt_exitbutton">बाहर जाएं</string>
+    <string name="enter_pattern">अपना पैटर्न दर्ज करें</string>
+    <string name="pattern_required">एप्लिकेशन का उपयोग करने के लिए पैटर्न प्रमाणीकरण आवश्यक है</string>
+    <string name="use_fingerprint">फिंगरप्रिंट लॉक का उपयोग करें</string>
+    <string name="user_pattern">पैटर्न लॉक का उपयोग करें</string>
+    <string name="enable_authentication_for_using_the_app">एप्लिकेशन का उपयोग करने के लिए प्रमाणीकरण सक्षम करें</string>
+    <string name="select_theme">थीम चुनिए</string>
+    <string name="click_to_theme">एक अलग एप्लिकेशन थीम सेट करने के लिए टैप करें</string>
+    <string-array name="modes_name">
+        <item>प्रकाश थीम</item>
+        <item>डार्क थीम</item>
+    </string-array>
+    <string-array name="mode_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="view_pager_tabs">
+        <item>सभी सदस्य</item>
+        <item>शुल्क रिकॉर्ड</item>
+    </string-array>
+    <string name="choose_lang">भाषा बदलें</string>
+    <string name="select_lang">भाषा बदलने के लिए टैप करें</string>
+    <string-array name="lang">
+        <item>हिन्दी</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="langValues">
+        <item>hi</item>
+        <item>en</item>
+    </string-array>
+</resources>

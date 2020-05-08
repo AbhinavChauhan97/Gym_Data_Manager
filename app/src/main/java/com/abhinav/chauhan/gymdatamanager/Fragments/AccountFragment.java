@@ -75,7 +75,7 @@ public class AccountFragment extends Fragment {
         super.onStart();
         ((AppCompatActivity) getActivity())
                 .getSupportActionBar()
-                .setTitle(getString(R.string.about) + getString(R.string.settings));
+                .setTitle(getString(R.string.account));
     }
 
     @Override
@@ -175,7 +175,7 @@ public class AccountFragment extends Fragment {
                         user.reauthenticate(phoneAuthCredential)
                                 .addOnSuccessListener(aVoid -> user.delete()
                                         .addOnSuccessListener(aVoid1 -> {
-                                            Toast.makeText(getActivity(), "Account deleted", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), R.string.account_deleted, Toast.LENGTH_SHORT).show();
                                             startSignInActivity();
                                         })
                                         .addOnFailureListener(e -> e.printStackTrace()))
@@ -204,7 +204,7 @@ public class AccountFragment extends Fragment {
                             .addOnSuccessListener(
                                     aVoid1 -> user.delete()
                                             .addOnSuccessListener(aVoid2 -> {
-                                                Toast.makeText(getActivity(), "Account Deleted", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getActivity(), R.string.account_deleted, Toast.LENGTH_SHORT).show();
                                                 startSignInActivity();
                                             })
                                             .addOnFailureListener(e -> e.printStackTrace()))

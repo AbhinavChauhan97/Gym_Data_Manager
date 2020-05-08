@@ -19,8 +19,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainScreenViewPagerFragment extends Fragment {
 
-    private ViewPager mViewPager;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +42,8 @@ public class MainScreenViewPagerFragment extends Fragment {
         PagerTabStrip pagerTabStrip = view.findViewById(R.id.pager_tab_strip);
         pagerTabStrip.setTextColor(getResources().getColor(android.R.color.white));
         pagerTabStrip.setTabIndicatorColor(getResources().getColor(android.R.color.white));
-        mViewPager = view.findViewById(R.id.list);
-        mViewPager.setAdapter(new FragmentPagerAdapter(requireActivity().getSupportFragmentManager()) {
+        ViewPager mViewPager = view.findViewById(R.id.list);
+        mViewPager.setAdapter(new FragmentPagerAdapter(requireActivity().getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull
             @Override
             public Fragment getItem(int position) {
@@ -76,4 +74,5 @@ public class MainScreenViewPagerFragment extends Fragment {
         mAddMemberFab.setOnClickListener(v -> startActivity(new Intent(MainScreenViewPagerFragment.this.getActivity(), AddNewMemberActivity.class)));
 
     }
+
 }

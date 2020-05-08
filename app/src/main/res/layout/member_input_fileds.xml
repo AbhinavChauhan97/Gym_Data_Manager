@@ -46,7 +46,7 @@
             style="@style/member_input_fields"
             android:hint="@string/members_phone"
             app:endIconMode="custom"
-            android:tag="memberName"
+            android:tag="memberPhone"
             app:endIconDrawable="@drawable/ic_mode_edit_black_24dp">
 
 
@@ -71,7 +71,7 @@
             style="@style/member_input_fields"
             android:hint="@string/members_address"
             app:endIconMode="custom"
-            android:tag="memberName"
+            android:tag="memberAddress"
             app:endIconDrawable="@drawable/ic_mode_edit_black_24dp">
 
 
@@ -97,7 +97,6 @@
             style="@style/member_input_fields"
             android:hint="@string/members_joining_date"
             app:endIconMode="custom"
-            android:tag="memberName"
             app:endIconDrawable="@drawable/ic_mode_edit_black_24dp">
 
             <com.google.android.material.textfield.TextInputEditText

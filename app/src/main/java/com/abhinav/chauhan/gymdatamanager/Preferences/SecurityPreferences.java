@@ -1,5 +1,6 @@
 package com.abhinav.chauhan.gymdatamanager.Preferences;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -8,19 +9,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 import com.abhinav.chauhan.gymdatamanager.R;
 
 import java.util.Objects;
 
+import static com.abhinav.chauhan.gymdatamanager.MyContextWrapper.wrap;
+
 public class SecurityPreferences extends PreferenceFragmentCompat {
 
-    SharedPreferences userPreferences;
+    private SharedPreferences userPreferences;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userPreferences = EditPreferences.getInstance().getUserPreference(getContext());
+        userPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
     @Override
@@ -47,13 +51,13 @@ public class SecurityPreferences extends PreferenceFragmentCompat {
     @Override
     public void onStart() {
         super.onStart();
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle("SECURITY SETTINGS");
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle(R.string.security);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle("SETTINGS");
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle(R.string.settings);
     }
 
     @Override
@@ -67,5 +71,10 @@ public class SecurityPreferences extends PreferenceFragmentCompat {
         if (getPreferenceScreen().getPreferenceCount() > 1) {
             getPreferenceScreen().removePreference(getPreferenceScreen().getPreference(1));
         }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(wrap(context));
     }
 }

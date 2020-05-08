@@ -20,8 +20,8 @@
     <ConstraintSet android:id="@+id/end">
         <Constraint
             android:id="@+id/call_member"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:rotation="360"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +32,8 @@
 
         <Constraint
             android:id="@+id/message_member"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:rotation="360"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -43,8 +43,8 @@
             motion:layout_constraintVertical_bias="0.5" />
         <Constraint
             android:id="@+id/delete_member"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:rotation="360"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"

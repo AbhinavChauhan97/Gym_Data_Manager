@@ -26,9 +26,8 @@ public class AllMembersRecordsFragment extends Fragment {
     private static FirestoreRecyclerAdapter<FeeRecord, Holder> mAdapter;
     private ProgressBar mProgressBar;
 
-    public static AllMembersRecordsFragment newInstance() {
-        AllMembersRecordsFragment fragment = new AllMembersRecordsFragment();
-        return fragment;
+    static AllMembersRecordsFragment newInstance() {
+        return new AllMembersRecordsFragment();
     }
 
     @Override

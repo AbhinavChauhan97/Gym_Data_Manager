@@ -107,7 +107,7 @@
                 style="@style/member_input_fields"
                 android:layout_marginTop="5dp"
                 android:elevation="2dp"
-                android:hint="@string/enter_member_name"
+                android:hint="@string/enter_members_joining_date"
                 app:endIconMode="custom">
 
             <com.google.android.material.textfield.TextInputEditText

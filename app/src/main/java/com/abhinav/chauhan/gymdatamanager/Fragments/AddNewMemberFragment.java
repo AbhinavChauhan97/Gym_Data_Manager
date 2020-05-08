@@ -44,7 +44,7 @@ public final class AddNewMemberFragment extends Fragment {
     private TextInputEditText mNewMemberJoiningDate;
     private ImageView mNewMemberPhoto;
     private int REQ_TAKE_PHOTO = 123;
-    static File file;
+    static File file = null;
     private int DATE_PICKER = 321;
     private int CONTACT_PICKER = 312;
     private Member mNewMember;
@@ -79,7 +79,7 @@ public final class AddNewMemberFragment extends Fragment {
         mNewMemberJoiningDate.setText(DateFormat.getInstance().format(new Date()));
         mNewMemberJoiningDate.setOnClickListener(v -> {
             DatePickerDialog dialog = new DatePickerDialog();
-            dialog.setTargetFragment(AddNewMemberFragment.this, 1);
+            dialog.setTargetFragment(AddNewMemberFragment.this, DATE_PICKER);
             assert getFragmentManager() != null;
             dialog.show(getFragmentManager(), "datePicker");
         });
@@ -106,12 +106,10 @@ public final class AddNewMemberFragment extends Fragment {
             {
                 if (isInputValid()) {
                     if (mNewMember.isHasImage()) {
-                        byte[] thumbImageData = createImage(300, 300, 10);
-                        byte[] fullImageData = createImage(800, 800, 15);
-                        if (thumbImageData != null && fullImageData != null) {
-                            FireBaseHandler.getInstance(getActivity()).addMember(mNewMember, thumbImageData, fullImageData);
-                        } else
-                            Toast.makeText(getActivity(), R.string.image_corrupt, Toast.LENGTH_LONG).show();
+                        Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        image.compress(Bitmap.CompressFormat.JPEG, 10, stream);
+                        FireBaseHandler.getInstance(getActivity()).addMember(mNewMember, stream.toByteArray(), stream.toByteArray());
                     } else
                         FireBaseHandler.getInstance(getActivity()).addMember(mNewMember);
                     AddNewMemberFragment.this.requireActivity().finish();
@@ -124,8 +122,8 @@ public final class AddNewMemberFragment extends Fragment {
     private boolean isInputValid() {
         String name = Objects.requireNonNull(mNewMemberName.getText()).toString().replaceAll("\\s{2,}", " ");
         String phone = Objects.requireNonNull(mNewMemberPhone.getText()).toString().replaceAll("\\s+", "");
-        String address = Objects.requireNonNull(mNewMemberAddress.getText()).toString().replaceAll("\\s+", "");
-        if (address.matches("[a-zA-Z0-9]+") && phone.matches("(?:\\+9[1-9])?[7-9][0-9]{9}") && name.matches("[a-zA-Z ]+")) {
+        String address = Objects.requireNonNull(mNewMemberAddress.getText()).toString().replaceAll("\\s{2,}", "");
+        if (address.matches("[a-zA-Z0-9 ]+") && phone.matches("(?:\\+9[1-9])?[7-9][0-9]{9}") && name.matches("[a-zA-Z ]+")) {
             mNewMember.setMemberName(name.toUpperCase());
             mNewMember.setMemberPhone(phone);
             mNewMember.setMemberAddress(address);
@@ -141,8 +139,7 @@ public final class AddNewMemberFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        // Log.d("db",imageFileUri.toString());
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQ_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
             Picasso.with(getActivity()).load(file).fit().centerInside().into(mNewMemberPhoto);
             mNewMember.setHasImage(true);
@@ -164,22 +161,6 @@ public final class AddNewMemberFragment extends Fragment {
         }
     }
 
-    private byte[] createImage(int height, int width, int quality) {
-        byte[] imageData = null;
-        try {
-            Bitmap fullImageBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-            imageData = getImageData(height, width, quality, fullImageBitmap);
-        } catch (Exception e) {
-            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-        }
-        return imageData;
-    }
 
-    private byte[] getImageData(int height, int width, int quality, Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        Bitmap thumbnail = Bitmap.createScaledBitmap(bitmap, height, width, false);
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, quality, stream);
-        return stream.toByteArray();
-    }
 }
 

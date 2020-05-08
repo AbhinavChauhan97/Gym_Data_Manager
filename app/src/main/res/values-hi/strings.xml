@@ -1,7 +1,8 @@
 <resources>
-    <string name="email"><u>G-Mail</u></string>
+    <string name="email"><u>E-mail</u></string>
     <string name="github"><u>Github</u></string>
-    <string name="app_name">GYM DATA MANAGER</string>
+    <string name="app_name">जिम डाटा मैनेजर</string>
+    <string name="deleting_acc">खाता हटाया जा रहा है</string>
     <string name="enter_member_name">सदस्य का नाम दर्ज करें</string>
     <string name="enter_members_phone">सदस्य का फोन नंबर दर्ज करें</string>
     <string name="enter_members_address">सदस्य का पता दर्ज करें</string>
@@ -13,6 +14,7 @@
     <string name="sort_by">क्रमबद्ध करें</string>
     <string name="by_name">नाम से</string>
     <string name="by_fees">बचे शुल्क से</string>
+    <string name="e_mail">ई-मेल</string>
     <string name="saved_changes">बदलाव दर्ज किया गया</string>
     <string name="by_date_old">ज्वाइनिंग तिथि (पुराना)</string>
     <string name="by_date_new">ज्वाइनिंग तिथि (नया)</string>
@@ -27,17 +29,18 @@
     <string name="set_monthly_fees">डिफ़ॉल्ट मासिक शुल्क निर्धारित करने के लिए टैप करें</string>
     <string name="enter_monthly_fees">Enter Default Monthly Fess</string>
     <string name="set">सेट</string>
-    <string name="general">सामान्य</string>
-    <string name="security">सुरक्षा</string>
-    <string name="account">खाता</string>
+    <string name="name">नाम</string>
+    <string name="general">सामान्य सेटिंग</string>
+    <string name="security">सुरक्षा सेटिंग</string>
+    <string name="account">खाता सेटिंग</string>
     <string name="about">डेवलपर के बारे में</string>
     <string name="sign_out">साइन आउट</string>
     <string name="delete_account">खाता हटाएं</string>
     <string name="sure_sign_out">क्या आप वास्तव में साइन आउट करना चाहते हैं</string>
     <string name="sure_delete_account">चेतावनी - सभी डेटा हमेशा के लिए खो जाएगा</string>
     <string name="click_to_sign_out">साइन आउट करने के लिए टैप करें</string>
-    <string name="FOR">For</string>
-    <string name="month">Month</string>
+    <string name="month">माह</string>
+    <string name="amount">धनराशि</string>
     <string name="enter_amount">राशी डालें</string>
     <string name="submit_fees_dialog_title">फीस जमा करें</string>
     <string name="sure_delete">क्या आप वास्तव में %1$s को हटाना चाहते हैं</string>
@@ -55,7 +58,7 @@
     <string name="member_added">सदस्य जोड़ा गया</string>
     <string name="data_updated">डेटा अपडेट किया गया</string>
     <string name="member_deleted">सदस्य को हटा दिया गया</string>
-    <string name="add_member">वसदस्य जोड़ें</string>
+    <string name="add_member">सदस्य जोड़ें</string>
     <string name="from_contacts">संपर्क से</string>
     <string name="fee_records">शुल्क रिकॉर्ड</string>
     <string name="fees_submitted">फीस जमा की गई</string>

@@ -12,10 +12,10 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.PreferenceManager;
 
 import com.abhinav.chauhan.gymdatamanager.Model.FeeRecord;
 import com.abhinav.chauhan.gymdatamanager.Model.Member;
-import com.abhinav.chauhan.gymdatamanager.Preferences.EditPreferences;
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
 
@@ -47,7 +47,8 @@ public class FeeSubmitDialog extends DialogFragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, noOfMonths);
         monthSpinner.setAdapter(adapter);
         final EditText amountEditText = view.findViewById(R.id.enter_amount);
-        amountEditText.setText(EditPreferences.getInstance().getUserPreference(getContext()).getString(FEES, "500"));
+        //amountEditText.setText(EditPreferences.getInstance().getUserPreference(getContext()).getString(FEES, "500"));
+        amountEditText.setText(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(FEES, "500"));
         return new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.submit_fees_dialog_title)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                     int totalFeeSubmittedMonths = Integer.parseInt(noOfMonths[monthSpinner.getSelectedItemPosition()]) + mMember.getNoOfFeesSubmittedMonths();

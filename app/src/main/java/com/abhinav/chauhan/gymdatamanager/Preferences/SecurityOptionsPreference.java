@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.biometric.BiometricManager;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceViewHolder;
 
 import com.abhinav.chauhan.gymdatamanager.R;
@@ -17,7 +18,7 @@ public class SecurityOptionsPreference extends Preference {
 
     SecurityOptionsPreference(Context context) {
         super(context);
-        userPreferences = EditPreferences.getInstance().getUserPreference(getContext());
+        userPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());//EditPreferences.getInstance().getUserPreference(getContext());
         setLayoutResource(R.layout.security_options_layout);
     }
 
@@ -76,10 +77,10 @@ public class SecurityOptionsPreference extends Preference {
     }
 
     private void setAuthPreference(RadioButton radio, String value) {
-        radio.setOnClickListener(v -> EditPreferences.getInstance()
-                .getUserPreference(getContext())
+        radio.setOnClickListener(v -> PreferenceManager.getDefaultSharedPreferences(getContext())
                 .edit()
                 .putString("auth", value)
                 .apply());
     }
+
 }

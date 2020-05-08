@@ -1,7 +1,10 @@
 <resources>
-    <string name="email"><u>G-Mail</u></string>
+    <string name="email"><u>E-Mail</u></string>
     <string name="github"><u>Github</u></string>
     <string name="app_name">GYM DATA MANAGER</string>
+    <string name="name">name</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="deleting_acc">Deleting Account...</string>
     <string name="enter_member_name">Enter Member\'s Name</string>
     <string name="enter_members_phone">Enter Member\'s Phone</string>
     <string name="enter_members_address">Enter Member\'s Address</string>
@@ -27,17 +30,17 @@
     <string name="set_monthly_fees">tap to set the default monthly fees</string>
     <string name="enter_monthly_fees">Enter Default Monthly Fess</string>
     <string name="set">SET</string>
-    <string name="general">GENERAL</string>
-    <string name="security">SECURITY</string>
-    <string name="account">ACCOUNT</string>
+    <string name="general">GENERAL SETTINGS</string>
+    <string name="security">SECURITY SETTINGS</string>
+    <string name="account">ACCOUNT SETTINGS</string>
     <string name="about">ABOUT DEVELOPER</string>
     <string name="sign_out">SIGN OUT</string>
     <string name="delete_account">DELETE ACCOUNT</string>
     <string name="sure_sign_out">Are you sure you want to sign out?</string>
     <string name="sure_delete_account">Are you sure ? \nAll data will be lost forever.</string>
     <string name="click_to_sign_out">Tap to Sign Out</string>
-    <string name="FOR">For</string>
-    <string name="month">Month</string>
+    <string name="month">MONTH</string>
+    <string name="amount">AMOUNT</string>
     <string name="enter_amount">ENTER AMOUNT</string>
     <string name="submit_fees_dialog_title">SUBMIT FEES</string>
     <string name="sure_delete">Do you really want to delete %1$s ?</string>

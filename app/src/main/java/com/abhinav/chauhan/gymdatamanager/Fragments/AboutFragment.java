@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
@@ -60,16 +59,11 @@ public class AboutFragment extends Fragment {
         FirebaseStorage.getInstance().getReference()
                 .child("developer pic.jpg")
                 .getDownloadUrl()
-                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.with(getActivity())
-                                .load(uri)
-                                .fit()
-                                .placeholder(R.drawable.ic_person_black_24dp)
-                                .into(developerImage);
-                    }
-                });
+                .addOnSuccessListener(uri -> Picasso.with(getActivity())
+                        .load(uri)
+                        .fit()
+                        .placeholder(R.drawable.ic_person_black_24dp)
+                        .into(developerImage));
     }
 
     private void setAboutTextView(View view) {
@@ -85,6 +79,7 @@ public class AboutFragment extends Fragment {
                     }
                 });
     }
+
 
     private void setLinks(View view) {
         TextView email = view.findViewById(R.id.email);

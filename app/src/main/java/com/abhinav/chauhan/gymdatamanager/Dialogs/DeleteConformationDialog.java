@@ -21,8 +21,7 @@ public class DeleteConformationDialog extends DialogFragment {
     }
 
     public static DeleteConformationDialog newInstance(Member member) {
-        DeleteConformationDialog fragment = new DeleteConformationDialog(member);
-        return fragment;
+        return new DeleteConformationDialog(member);
     }
 
     @NonNull
@@ -34,7 +33,7 @@ public class DeleteConformationDialog extends DialogFragment {
                 .setTitle(R.string.confirm_delete).setPositiveButton(R.string.yes, (dialog, which) -> {
                     upDateDataBase();
                     DeleteConformationDialog.this.dismiss();
-                    getActivity().finish();
+                    requireActivity().finish();
                 }).setNegativeButton(R.string.no, null).create();
     }
 

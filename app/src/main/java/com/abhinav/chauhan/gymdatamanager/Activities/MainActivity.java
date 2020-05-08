@@ -15,12 +15,12 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 
 import com.abhinav.chauhan.gymdatamanager.Fragments.MainScreenViewPagerFragment;
 import com.abhinav.chauhan.gymdatamanager.Fragments.MembersNamesRecyclerViewFragment;
 import com.abhinav.chauhan.gymdatamanager.Model.Member;
-import com.abhinav.chauhan.gymdatamanager.MyApplication;
-import com.abhinav.chauhan.gymdatamanager.Preferences.EditPreferences;
+import com.abhinav.chauhan.gymdatamanager.MyContextWrapper;
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
 import com.firebase.ui.auth.AuthUI;
@@ -35,11 +35,11 @@ import java.util.concurrent.Executor;
 
 public final class MainActivity extends AppCompatActivity implements MembersNamesRecyclerViewFragment.CallBacks {
 
-    private int RC_SIGN_IN = 1;
-    private int RC_PATTERN = 2;
-
+    private int RC_SIGN_IN = 13434;
+    private int RC_PATTERN = 26575;
+    private boolean misAuthenticated;
     private void showBiometricPrompt() {
-        getWindow().getDecorView().getRootView().setAlpha(0.2f);
+        getWindow().getDecorView().getRootView().setAlpha(0.0f);
         Executor executor = ContextCompat.getMainExecutor(this);
         BiometricPrompt biometricPrompt = new BiometricPrompt(MainActivity.this,
                 executor, new BiometricPrompt.AuthenticationCallback() {
@@ -48,18 +48,14 @@ public final class MainActivity extends AppCompatActivity implements MembersName
                     @NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 hostFragment();
+                misAuthenticated = true;
                 getWindow().getDecorView().getRootView().setAlpha(1.0f);
             }
 
             @Override
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
-                switch (errorCode) {
-                    case BiometricPrompt.ERROR_NEGATIVE_BUTTON:
-                    case BiometricPrompt.ERROR_LOCKOUT:
-                    case BiometricPrompt.ERROR_CANCELED:
-                        finish();
-                }
+                MainActivity.this.finish();
             }
         });
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
@@ -75,37 +71,44 @@ public final class MainActivity extends AppCompatActivity implements MembersName
         Intent intent = keyguardManager
                 .createConfirmDeviceCredentialIntent(getString(R.string.enter_pattern), getString(R.string.pattern_required));
         startActivityForResult(intent, RC_PATTERN);
+
     }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        // getSupportActionBar().setIcon(R.drawable.ic_fitness_center_black_24dp);
         super.onCreate(savedInstanceState);
         getSupportActionBar().setElevation(0);
-
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startSignInActivity();
             return;
         }
-        SharedPreferences userPreference = EditPreferences.getInstance().getUserPreference(this);
-        if (userPreference.getBoolean("security", false)) {
-            if (userPreference.getString("auth", "").equals("finger")) {
-                if (BiometricManager.from(this).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
-                    showBiometricPrompt();
-                } else hostFragment();
-            } else {
-                if (((KeyguardManager) this.getSystemService(KEYGUARD_SERVICE)).isKeyguardSecure())
-                    showPatternPrompt();
-                else hostFragment();
-            }
-        } else hostFragment();
-
-
-
-
+        if (savedInstanceState == null || !savedInstanceState.getBoolean("authenticated")) {
+            SharedPreferences userPreference = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());//EditPreferences.getInstance().getUserPreference(this);
+            if (userPreference.getBoolean("security", false)) {
+                if (userPreference.getString("auth", "").equals("finger")) {
+                    if (BiometricManager.from(this).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
+                        showBiometricPrompt();
+                    } else hostFragment();
+                } else {
+                    if (((KeyguardManager) this.getSystemService(KEYGUARD_SERVICE)).isKeyguardSecure())
+                        showPatternPrompt();
+                    else hostFragment();
+                }
+            } else hostFragment();
+        } else {
+            misAuthenticated = true;
+            hostFragment();
+        }
     }
 
-    private void hostFragment() {
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("authenticated", misAuthenticated);
+    }
+
+    public void hostFragment() {
         setContentView(R.layout.fragment_container);
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
@@ -138,6 +141,7 @@ public final class MainActivity extends AppCompatActivity implements MembersName
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        hostFragment();
         if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
             HashMap<String, Object> info = new HashMap<>();
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -159,7 +163,10 @@ public final class MainActivity extends AppCompatActivity implements MembersName
             hostFragment();
         } else if (requestCode == RC_PATTERN) {
             if (resultCode == RESULT_CANCELED) finish();
-            else if (resultCode == RESULT_OK) hostFragment();
+            else if (resultCode == RESULT_OK) {
+                misAuthenticated = true;
+                hostFragment();
+            }
         } else
             finish();
     }
@@ -167,7 +174,6 @@ public final class MainActivity extends AppCompatActivity implements MembersName
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
-        MyApplication.getInstance()
-                .setLocale("hi", newBase);
+        MyContextWrapper.wrap(newBase);
     }
 }

@@ -26,23 +26,14 @@ public class Member implements Serializable {
     private boolean mHasImage;
 
     public Member() {
-        String memberId = FirebaseFirestore.getInstance()
+        mMemberId = FirebaseFirestore.getInstance()
                 .collection("users")
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .collection("members")
                 .document().getId();
-        mMemberId = memberId;
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         mMemberJoiningDate = calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR);
-    }
-
-    public Member(String name, String phone, String address) {
-        this();
-
-        mMemberName = name;
-        mMemberPhone = phone;
-        mMemberAddress = address;
     }
 
     public boolean isHasImage() {

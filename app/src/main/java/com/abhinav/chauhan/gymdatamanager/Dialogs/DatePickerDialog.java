@@ -14,12 +14,14 @@ import androidx.fragment.app.DialogFragment;
 public class DatePickerDialog extends DialogFragment {
 
     private DatePicker mDatePicker;
+    private int DATE_PICKER = 321;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         mDatePicker = new DatePicker(getActivity());
+
         return new AlertDialog.Builder(getActivity())
                 .setView(mDatePicker)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
@@ -28,7 +30,7 @@ public class DatePickerDialog extends DialogFragment {
                             , mDatePicker.getMonth()
                             , mDatePicker.getDayOfMonth()});
                     getTargetFragment().
-                            onActivityResult(231, Activity.RESULT_OK, intent);
+                            onActivityResult(DATE_PICKER, Activity.RESULT_OK, intent);
                 }).create();
     }
 }

@@ -9,16 +9,20 @@
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:alertDialogTheme">@style/myDialog.AlertDialog</item>
         <item name="android:datePickerDialogTheme">@style/DatePicker</item>
+        <item name="android:itemBackground">@color/windowBackground</item>
+
 
     </style>
 
-    <style name="myDialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="android:background">@color/primary_light</item>-
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+    <style name="myDialog" parent="">
+        <item name="android:background">@color/colorPrimaryDark</item>-
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="backgroundColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="myDialog.AlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="android:background">@color/primary_light</item>
+
     </style>
 
     <style name="DatePicker" parent="Theme.AppCompat.DayNight.Dialog">
@@ -27,6 +31,9 @@
         <item name="android:textColor">@color/primary_light</item>
     </style>
 
+    <style name="MyMenuStyle" parent="Theme.AppCompat.DayNight">
+        <item name="android:popupBackground">@color/colorPrimary</item>
+    </style>
     <style name="CircularImageView">
         <item name="civ_border">true</item>
         <item name="android:layout_width">0dp</item>

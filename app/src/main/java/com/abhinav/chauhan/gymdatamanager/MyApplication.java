@@ -18,7 +18,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         int mode = Integer.parseInt(PreferenceManager
-                .getDefaultSharedPreferences(getApplicationContext())
+                .getDefaultSharedPreferences(this)
                 .getString("modes", "1"));
         AppCompatDelegate.setDefaultNightMode(mode);
         super.onCreate();

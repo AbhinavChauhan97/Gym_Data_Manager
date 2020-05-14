@@ -1,10 +1,10 @@
-package com.abhinav.chauhan.gymdatamanager.Activities;
+package com.abhinav.chauhan.gymdatamanager.activities;
 
 import androidx.fragment.app.Fragment;
 
-import com.abhinav.chauhan.gymdatamanager.Fragments.MemberInfoFragment;
-import com.abhinav.chauhan.gymdatamanager.Model.Member;
 import com.abhinav.chauhan.gymdatamanager.R;
+import com.abhinav.chauhan.gymdatamanager.fragments.MemberInfoFragment;
+import com.abhinav.chauhan.gymdatamanager.model.Member;
 
 
 public class MemberInfoActivity extends SingleFragmentHost {

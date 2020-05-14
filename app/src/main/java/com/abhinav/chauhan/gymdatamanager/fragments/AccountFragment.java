@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Fragments;
+package com.abhinav.chauhan.gymdatamanager.fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -19,8 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.abhinav.chauhan.gymdatamanager.Activities.MainActivity;
 import com.abhinav.chauhan.gymdatamanager.R;
+import com.abhinav.chauhan.gymdatamanager.activities.MainActivity;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

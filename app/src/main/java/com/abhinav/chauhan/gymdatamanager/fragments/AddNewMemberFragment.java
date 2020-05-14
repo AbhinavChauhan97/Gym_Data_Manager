@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Fragments;
+package com.abhinav.chauhan.gymdatamanager.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,10 +23,10 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
-import com.abhinav.chauhan.gymdatamanager.Dialogs.DatePickerDialog;
-import com.abhinav.chauhan.gymdatamanager.Model.Member;
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
+import com.abhinav.chauhan.gymdatamanager.dialogs.DatePickerDialog;
+import com.abhinav.chauhan.gymdatamanager.model.Member;
 import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 
@@ -90,7 +90,7 @@ public final class AddNewMemberFragment extends Fragment {
         ImageButton mClickImage = view.findViewById(R.id.click_image);
         mClickImage.setOnClickListener(v -> {
 
-            file = new File(requireActivity().getExternalFilesDir(null), mNewMember.getMemberId() + ".jpg");
+            file = new File(getActivity().getExternalFilesDir(null), mNewMember.getMemberId() + ".jpg");
             Uri imageFileUri = FileProvider.getUriForFile(getActivity(), "com.abhinav.chauhan.gymdatamanager.provider", file);
             Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             captureImage.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
@@ -108,7 +108,7 @@ public final class AddNewMemberFragment extends Fragment {
                     if (mNewMember.isHasImage()) {
                         Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        image.compress(Bitmap.CompressFormat.JPEG, 10, stream);
+                        image.compress(Bitmap.CompressFormat.JPEG, 20, stream);
                         FireBaseHandler.getInstance(getActivity()).addMember(mNewMember, stream.toByteArray(), stream.toByteArray());
                     } else
                         FireBaseHandler.getInstance(getActivity()).addMember(mNewMember);
@@ -144,7 +144,7 @@ public final class AddNewMemberFragment extends Fragment {
             Picasso.with(getActivity()).load(file).fit().centerInside().into(mNewMemberPhoto);
             mNewMember.setHasImage(true);
         } else if (requestCode == DATE_PICKER && resultCode == Activity.RESULT_OK && data != null) {
-            int[] extra = Objects.requireNonNull(data.getExtras()).getIntArray("date");
+            int[] extra = data.getExtras().getIntArray("date");
             assert extra != null;
             String date = "" + extra[2] + "/" + extra[1] + "/" + extra[0];
             mNewMemberJoiningDate.setText(date);
@@ -152,7 +152,7 @@ public final class AddNewMemberFragment extends Fragment {
 
             @SuppressLint("Recycle") Cursor c1 = requireActivity()
                     .getContentResolver()
-                    .query(Objects.requireNonNull(data.getData()), new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER,
+                    .query(data.getData(), new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER,
                             ContactsContract.CommonDataKinds.Photo.DISPLAY_NAME}, null, null, null);
             assert c1 != null;
             c1.moveToFirst();
@@ -160,7 +160,5 @@ public final class AddNewMemberFragment extends Fragment {
             mNewMemberPhone.setText(c1.getString(0));
         }
     }
-
-
 }
 

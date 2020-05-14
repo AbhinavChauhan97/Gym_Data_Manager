@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Preferences;
+package com.abhinav.chauhan.gymdatamanager.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,7 +24,7 @@ public class SecurityPreferences extends PreferenceFragmentCompat {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        userPreferences = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
     }
 
     @Override

@@ -1,7 +1,6 @@
-package com.abhinav.chauhan.gymdatamanager.Activities;
+package com.abhinav.chauhan.gymdatamanager.activities;
 
 import android.app.KeyguardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -17,16 +16,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 
-import com.abhinav.chauhan.gymdatamanager.Fragments.MainScreenViewPagerFragment;
-import com.abhinav.chauhan.gymdatamanager.Fragments.MembersNamesRecyclerViewFragment;
-import com.abhinav.chauhan.gymdatamanager.Model.Member;
 import com.abhinav.chauhan.gymdatamanager.MyContextWrapper;
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
+import com.abhinav.chauhan.gymdatamanager.fragments.MainScreenViewPagerFragment;
+import com.abhinav.chauhan.gymdatamanager.fragments.MembersNamesRecyclerViewFragment;
+import com.abhinav.chauhan.gymdatamanager.model.Member;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +77,7 @@ public final class MainActivity extends AppCompatActivity implements MembersName
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        MyContextWrapper.wrap(this);
         super.onCreate(savedInstanceState);
         getSupportActionBar().setElevation(0);
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
@@ -100,6 +101,7 @@ public final class MainActivity extends AppCompatActivity implements MembersName
             misAuthenticated = true;
             hostFragment();
         }
+
     }
 
     @Override
@@ -145,7 +147,6 @@ public final class MainActivity extends AppCompatActivity implements MembersName
         if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
             HashMap<String, Object> info = new HashMap<>();
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            assert user != null;
             String name = user.getDisplayName();
             String phone = user.getPhoneNumber();
             String email = user.getEmail();
@@ -172,8 +173,10 @@ public final class MainActivity extends AppCompatActivity implements MembersName
     }
 
     @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
-        MyContextWrapper.wrap(newBase);
+    protected void onDestroy() {
+        super.onDestroy();
+        File[] files = getExternalFilesDir(null).listFiles();
+        for (File file : files)
+            file.delete();
     }
 }

@@ -1,7 +1,10 @@
-package com.abhinav.chauhan.gymdatamanager.Fragments;
+package com.abhinav.chauhan.gymdatamanager.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +16,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerTabStrip;
 import androidx.viewpager.widget.ViewPager;
 
-import com.abhinav.chauhan.gymdatamanager.Activities.AddNewMemberActivity;
 import com.abhinav.chauhan.gymdatamanager.R;
+import com.abhinav.chauhan.gymdatamanager.activities.AddNewMemberActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainScreenViewPagerFragment extends Fragment {
 
@@ -36,6 +41,7 @@ public class MainScreenViewPagerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setupViewPager(view);
         setAddMemberFab(view);
+        //setupSnackBar(view);
     }
 
     private void setupViewPager(View view) {
@@ -66,6 +72,18 @@ public class MainScreenViewPagerFragment extends Fragment {
                 else return getResources().getStringArray(R.array.view_pager_tabs)[1];
             }
         });
+    }
+
+    private void setupSnackBar(View view) {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        boolean b = connectivityManager.getActiveNetworkInfo().isConnectedOrConnecting();
+        if (b) {
+            Snackbar mobileDataBar = Snackbar.make(view, "Enable Internet For a Seamless Experience", BaseTransientBottomBar.LENGTH_LONG);
+            mobileDataBar.setAction("ENABLE", v ->
+                    startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS)));
+            mobileDataBar.show();
+        }
     }
 
     private void setAddMemberFab(View view) {

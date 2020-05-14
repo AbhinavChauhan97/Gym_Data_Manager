@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Model;
+package com.abhinav.chauhan.gymdatamanager.model;
 
 import android.util.Log;
 

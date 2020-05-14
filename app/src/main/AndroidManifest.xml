@@ -21,12 +21,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/paths" />
         </provider>
-        <activity android:name="com.abhinav.chauhan.gymdatamanager.Activities.PreferenceActivity" />
+
+        <activity android:name="com.abhinav.chauhan.gymdatamanager.activities.PreferenceActivity" />
+        <activity android:name="com.abhinav.chauhan.gymdatamanager.activities.MemberInfoActivity" />
         <activity
-            android:name="com.abhinav.chauhan.gymdatamanager.Activities.MemberInfoActivity" />
-        <activity
-            android:name="com.abhinav.chauhan.gymdatamanager.Activities.AddNewMemberActivity" />
-        <activity android:name="com.abhinav.chauhan.gymdatamanager.Activities.MainActivity">
+            android:name="com.abhinav.chauhan.gymdatamanager.activities.AddNewMemberActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name="com.abhinav.chauhan.gymdatamanager.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

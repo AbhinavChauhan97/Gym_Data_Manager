@@ -34,6 +34,7 @@
     <string name="security">सुरक्षा सेटिंग</string>
     <string name="account">खाता सेटिंग</string>
     <string name="about">डेवलपर के बारे में</string>
+    <string name="invalid_fees">अवैध शुल्क</string>
     <string name="sign_out">साइन आउट</string>
     <string name="delete_account">खाता हटाएं</string>
     <string name="sure_sign_out">क्या आप वास्तव में साइन आउट करना चाहते हैं</string>

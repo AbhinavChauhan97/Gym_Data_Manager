@@ -17,7 +17,7 @@ public class MyContextWrapper extends ContextWrapper {
     }
 
     public static ContextWrapper wrap(Context context) {
-        String language = PreferenceManager.getDefaultSharedPreferences(context).getString("lang", "en");
+        String language = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).getString("lang", "en");
         Configuration config = context.getResources().getConfiguration();
         Locale sysLocale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

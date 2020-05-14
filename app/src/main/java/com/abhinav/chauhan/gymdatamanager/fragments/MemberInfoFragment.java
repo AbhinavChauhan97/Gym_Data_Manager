@@ -1,8 +1,10 @@
-package com.abhinav.chauhan.gymdatamanager.Fragments;
+package com.abhinav.chauhan.gymdatamanager.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +22,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.abhinav.chauhan.gymdatamanager.Dialogs.DeleteConformationDialog;
-import com.abhinav.chauhan.gymdatamanager.Dialogs.FeeSubmitDialog;
-import com.abhinav.chauhan.gymdatamanager.Model.FeeRecord;
-import com.abhinav.chauhan.gymdatamanager.Model.Member;
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
+import com.abhinav.chauhan.gymdatamanager.dialogs.DeleteConformationDialog;
+import com.abhinav.chauhan.gymdatamanager.dialogs.FeeSubmitDialog;
+import com.abhinav.chauhan.gymdatamanager.model.FeeRecord;
+import com.abhinav.chauhan.gymdatamanager.model.Member;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public final class MemberInfoFragment extends Fragment {
 
@@ -145,7 +150,6 @@ public final class MemberInfoFragment extends Fragment {
             protected void onBindViewHolder(@NonNull Holder holder, int i, @NonNull FeeRecord feeRecord) {
                 holder.bind(feeRecord);
             }
-
             @NonNull
             @Override
             public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -172,27 +176,57 @@ public final class MemberInfoFragment extends Fragment {
             getActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(getView().getId(), new MemberFullSizeImage(mMember.getMemberId() + ".jpg", imageView.getDrawable()))
+                    .replace(getView().getId(), new MemberFullSizeImage(mMember.getMemberId(), imageView.getDrawable()))
                     .addToBackStack(null)
                     .commit();
         });
         if (mMember.isHasImage()) {
+            File fullSizeImageDir = new File(getActivity().getExternalCacheDir().getAbsolutePath()
+                    + "/full_images");
+            if (!fullSizeImageDir.exists()) {
+                fullSizeImageDir.mkdir();
+            }
+            File[] fullSizeImages = fullSizeImageDir.listFiles();
+            for (File image : fullSizeImages) {
+                if (image.getName().equals(mMember.getMemberId() + ".jpg")) {
+                    Picasso.with(getActivity())
+                            .load(image)
+                            .into(imageView);
+                    Log.d("db", "here");
+                    return;
+                }
+            }
             FireBaseHandler.getInstance(getActivity())
                     .getMemberImagesReference()
-                    .child(mMember.getMemberId() + "_700x700.jpg").getDownloadUrl()
-                    .addOnSuccessListener(uri -> Picasso.with(getActivity())
+                    .child(mMember.getMemberId() + ".jpg").getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+                        Picasso.with(getActivity())
                             .load(uri.toString())
                             .fit()
                             .centerInside()
                             .placeholder(R.drawable.ic_person_black_24dp)
-                            .into(imageView))
+                                .into(imageView);
+                        Thread thread = new Thread() {
+                            public void run() {
+                                File file = new File(fullSizeImageDir.getAbsolutePath() + "/" + mMember.getMemberId() + ".jpg");
+                                try {
+                                    Bitmap bitmap = Picasso.with(getActivity())
+                                            .load(uri).get();
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                        thread.start();
+
+                    })
                     .addOnFailureListener(e -> Picasso.with(getActivity())
                             .load(AddNewMemberFragment.file)
                             .fit()
                             .centerInside()
                             .placeholder(R.drawable.ic_person_black_24dp)
                             .into(imageView));
-
         }
     }
 

@@ -3,8 +3,8 @@ package com.abhinav.chauhan.gymdatamanager.database;
 import android.content.Context;
 import android.util.Log;
 
-import com.abhinav.chauhan.gymdatamanager.Model.FeeRecord;
-import com.abhinav.chauhan.gymdatamanager.Model.Member;
+import com.abhinav.chauhan.gymdatamanager.model.FeeRecord;
+import com.abhinav.chauhan.gymdatamanager.model.Member;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;

@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Preferences;
+package com.abhinav.chauhan.gymdatamanager.preferences;
 
 import android.content.Context;
 import android.os.Bundle;

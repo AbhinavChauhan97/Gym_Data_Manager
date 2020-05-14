@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Fragments;
+package com.abhinav.chauhan.gymdatamanager.fragments;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,20 +14,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.abhinav.chauhan.gymdatamanager.R;
-import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
-import com.squareup.picasso.Picasso;
 
 public class MemberFullSizeImage extends Fragment {
 
+    private Drawable mFullImage;
     private String mImageName;
-    private Drawable mPlaceHolder;
-
     public MemberFullSizeImage() {
     }
 
-    MemberFullSizeImage(String memberId, Drawable placeHolder) {
-        mImageName = memberId;
-        mPlaceHolder = placeHolder;
+    MemberFullSizeImage(String memberId, Drawable fullImage) {
+        mFullImage = fullImage;
+        mImageName = memberId + ".jpg";
     }
 
     @Nullable
@@ -44,8 +41,8 @@ public class MemberFullSizeImage extends Fragment {
         });
         ImageView imageView = view.findViewById(R.id.full_image);
         ProgressBar progressBar = view.findViewById(R.id.progressbar);
-        imageView.setImageDrawable(mPlaceHolder);
-        FireBaseHandler.getInstance(getActivity())
+        imageView.setImageDrawable(mFullImage);
+        /*FireBaseHandler.getInstance(getActivity())
                 .getMemberImagesReference()
                 .child(mImageName)
                 .getDownloadUrl()
@@ -61,7 +58,7 @@ public class MemberFullSizeImage extends Fragment {
                             .load(AddNewMemberFragment.file)
                             .into(imageView);
                     progressBar.setVisibility(View.INVISIBLE);
-                });
+                });*/
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Fragments;
+package com.abhinav.chauhan.gymdatamanager.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.abhinav.chauhan.gymdatamanager.Model.FeeRecord;
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
+import com.abhinav.chauhan.gymdatamanager.model.FeeRecord;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
@@ -47,6 +47,7 @@ public class AllMembersRecordsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mProgressBar = view.findViewById(R.id.progressbar);
+        getView().findViewById(R.id.empty_message).setVisibility(View.INVISIBLE);
         setRecyclerView(view);
     }
 
@@ -57,7 +58,11 @@ public class AllMembersRecordsFragment extends Fragment {
     }
 
     private void setupFirebaseRecyclerAdapter() {
-        Query query = FireBaseHandler.getInstance(getActivity()).getFeeReference().orderBy("date", Query.Direction.DESCENDING);
+        Query query = FireBaseHandler.getInstance(getActivity())
+                .getFeeReference()
+                .orderBy("year", Query.Direction.DESCENDING)
+                .orderBy("month", Query.Direction.DESCENDING)
+                .orderBy("day", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<FeeRecord> options = new FirestoreRecyclerOptions.Builder<FeeRecord>()
                 .setLifecycleOwner(this)
                 .setQuery(query, FeeRecord.class).build();
@@ -77,10 +82,9 @@ public class AllMembersRecordsFragment extends Fragment {
             public void onDataChanged() {
                 super.onDataChanged();
                 mProgressBar.setVisibility(View.INVISIBLE);
-                if (getItemCount() > 0) {
-                    getView().findViewById(R.id.empty_message).setVisibility(View.INVISIBLE);
-                } else
+                if (getItemCount() == 0) {
                     getView().findViewById(R.id.empty_message).setVisibility(View.VISIBLE);
+                }
             }
         };
     }

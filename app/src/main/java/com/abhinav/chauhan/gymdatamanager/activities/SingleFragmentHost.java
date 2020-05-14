@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Activities;
+package com.abhinav.chauhan.gymdatamanager.activities;
 
 import android.content.Context;
 import android.os.Bundle;

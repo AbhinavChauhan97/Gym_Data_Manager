@@ -1,9 +1,9 @@
-package com.abhinav.chauhan.gymdatamanager.Activities;
+package com.abhinav.chauhan.gymdatamanager.activities;
 
 import androidx.fragment.app.Fragment;
 
-import com.abhinav.chauhan.gymdatamanager.Preferences.EditPreferences;
 import com.abhinav.chauhan.gymdatamanager.R;
+import com.abhinav.chauhan.gymdatamanager.preferences.EditPreferences;
 
 public class PreferenceActivity extends SingleFragmentHost {
 

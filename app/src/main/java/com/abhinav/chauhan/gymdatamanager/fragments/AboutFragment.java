@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Fragments;
+package com.abhinav.chauhan.gymdatamanager.fragments;
 
 import android.content.Intent;
 import android.net.Uri;

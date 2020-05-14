@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Dialogs;
+package com.abhinav.chauhan.gymdatamanager.dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;

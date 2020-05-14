@@ -1,6 +1,7 @@
 <resources>
     <string name="email"><u>E-Mail</u></string>
     <string name="github"><u>Github</u></string>
+    <string name="invalid_fees">Invalid Fees</string>
     <string name="app_name">GYM DATA MANAGER</string>
     <string name="name">name</string>
     <string name="e_mail">E-Mail</string>

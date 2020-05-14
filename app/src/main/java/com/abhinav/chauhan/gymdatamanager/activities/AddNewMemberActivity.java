@@ -1,11 +1,9 @@
-package com.abhinav.chauhan.gymdatamanager.Activities;
-
-import android.content.Context;
+package com.abhinav.chauhan.gymdatamanager.activities;
 
 import androidx.fragment.app.Fragment;
 
-import com.abhinav.chauhan.gymdatamanager.Fragments.AddNewMemberFragment;
 import com.abhinav.chauhan.gymdatamanager.R;
+import com.abhinav.chauhan.gymdatamanager.fragments.AddNewMemberFragment;
 
 
 public class AddNewMemberActivity extends SingleFragmentHost {
@@ -16,9 +14,6 @@ public class AddNewMemberActivity extends SingleFragmentHost {
         return AddNewMemberFragment.newInstance();
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
-    }
+
 }
 

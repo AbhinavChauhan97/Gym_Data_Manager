@@ -1,8 +1,10 @@
-package com.abhinav.chauhan.gymdatamanager.Fragments;
+package com.abhinav.chauhan.gymdatamanager.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,15 +24,18 @@ import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.abhinav.chauhan.gymdatamanager.Activities.PreferenceActivity;
-import com.abhinav.chauhan.gymdatamanager.Model.Member;
 import com.abhinav.chauhan.gymdatamanager.R;
+import com.abhinav.chauhan.gymdatamanager.activities.PreferenceActivity;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
+import com.abhinav.chauhan.gymdatamanager.model.Member;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 import static com.google.firebase.firestore.Query.Direction.ASCENDING;
 import static com.google.firebase.firestore.Query.Direction.DESCENDING;
@@ -43,7 +48,7 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
     private ProgressBar mProgressBar;
     private TextView mEmptyTextView;
     private int mSelectedSorting;
-
+    private File mThumbnailsDir;
     static MembersNamesRecyclerViewFragment newInstance() {
         return new MembersNamesRecyclerViewFragment();
     }
@@ -52,6 +57,11 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mCallBacks = (CallBacks) context;
+        mThumbnailsDir = new File(getActivity().getExternalCacheDir().getAbsolutePath()
+                + "/thumbnails");
+        if (!mThumbnailsDir.exists()) {
+            mThumbnailsDir.mkdir();
+        }
         //Log.d("db", "on Attach");
     }
 
@@ -242,7 +252,7 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
 
         void bind(final Member member, final long daysLeft) {
             mMember = member;
-            //Log.d("db",member.getMemberName().concat(" bind"));
+            Log.d("db", member.getMemberName().concat(" bind"));
             if (daysLeft > 0)
                 mArrow.setBackground(getResources().getDrawable(R.drawable.ic_arrow_upward_black_24dp));
             else
@@ -250,23 +260,42 @@ public final class MembersNamesRecyclerViewFragment extends Fragment {
             mName.setText(member.getMemberName());
             mDaysLeft.setText(String.valueOf(daysLeft));
             if (member.isHasImage()) {
-                //Log.d("db",member.getMemberName().concat( " has image"));
+                File imageThumbnail = new File(mThumbnailsDir.getAbsolutePath() + "/" + member.getMemberId() + "_180x180.jpg");
+                if (imageThumbnail.exists()) {
+                    Picasso.with(getActivity())
+                            .load(imageThumbnail)
+                            .into(mThumbnailImage);
+                    return;
+                }
                 FireBaseHandler.getInstance(getActivity())
                         .getMemberImagesReference()
-                        .child(member.getMemberId() + "_200x200.jpg")
+                        .child(member.getMemberId() + "_180x180.jpg")
                         .getDownloadUrl()
                         .addOnSuccessListener(uri -> {
                             Picasso.with(getActivity())
-                                .load(uri)
-                                .placeholder(R.drawable.ic_person_black_24dp)
+                                    .load(uri)
+                                    .placeholder(R.drawable.ic_person_black_24dp)
                                     .fit().centerCrop().into(mThumbnailImage);
-                            //Log.d("db","urlbind");
+                            Log.d("db", "fetching image");
+                            Thread thread = new Thread() {
+                                public void run() {
+                                    File file = new File(mThumbnailsDir.getAbsolutePath() + "/" + member.getMemberId() + "_180x180.jpg");
+                                    try {
+                                        Bitmap bitmap = Picasso.with(getActivity())
+                                                .load(uri).get();
+                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            };
+                            thread.start();
                         })
 
                         .addOnFailureListener(e -> {
                             Picasso.with(getActivity())
-                                .load(AddNewMemberFragment.file)
-                                .placeholder(R.drawable.ic_person_black_24dp)
+                                    .load(AddNewMemberFragment.file)
+                                    .placeholder(R.drawable.ic_person_black_24dp)
                                     .fit().centerCrop().into(mThumbnailImage);
                             // Log.d("db",AddNewMemberFragment.file.toString());
                         });

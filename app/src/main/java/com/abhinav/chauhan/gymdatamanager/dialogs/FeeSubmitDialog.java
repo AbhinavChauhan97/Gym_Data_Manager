@@ -1,4 +1,4 @@
-package com.abhinav.chauhan.gymdatamanager.Dialogs;
+package com.abhinav.chauhan.gymdatamanager.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,10 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.PreferenceManager;
 
-import com.abhinav.chauhan.gymdatamanager.Model.FeeRecord;
-import com.abhinav.chauhan.gymdatamanager.Model.Member;
 import com.abhinav.chauhan.gymdatamanager.R;
 import com.abhinav.chauhan.gymdatamanager.database.FireBaseHandler;
+import com.abhinav.chauhan.gymdatamanager.model.FeeRecord;
+import com.abhinav.chauhan.gymdatamanager.model.Member;
 
 public class FeeSubmitDialog extends DialogFragment {
 
@@ -44,12 +44,13 @@ public class FeeSubmitDialog extends DialogFragment {
         final String[] noOfMonths = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
         final View view = LayoutInflater.from(getActivity()).inflate(R.layout.fees_dialog, null);
         final Spinner monthSpinner = view.findViewById(R.id.month);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, noOfMonths);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, noOfMonths);
         monthSpinner.setAdapter(adapter);
         final EditText amountEditText = view.findViewById(R.id.enter_amount);
-        //amountEditText.setText(EditPreferences.getInstance().getUserPreference(getContext()).getString(FEES, "500"));
-        amountEditText.setText(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(FEES, "500"));
-        return new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.submit_fees_dialog_title)
+        amountEditText.setText(PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).getString(FEES, "500"));
+        return new AlertDialog.Builder(getActivity())
+                .setView(view)
+                .setTitle(R.string.submit_fees_dialog_title)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                     int totalFeeSubmittedMonths = Integer.parseInt(noOfMonths[monthSpinner.getSelectedItemPosition()]) + mMember.getNoOfFeesSubmittedMonths();
                     mMember.setNoOfFeesSubmittedMonths(totalFeeSubmittedMonths);
@@ -59,7 +60,8 @@ public class FeeSubmitDialog extends DialogFragment {
                     upDateDatabase(feeRecord);
                     dismiss();
                 })
-                .setNegativeButton(android.R.string.cancel, null).create();
+                .setNegativeButton(android.R.string.cancel, null)
+                .create();
     }
 
     private void upDateDatabase(FeeRecord feeRecord) {

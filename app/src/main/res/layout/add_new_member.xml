@@ -85,6 +85,7 @@
             android:hint="@string/enter_members_phone">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/member_phone_textinput_edittext"
+                android:inputType="phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
